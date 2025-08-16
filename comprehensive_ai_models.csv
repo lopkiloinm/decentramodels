@@ -1,0 +1,29 @@
+Platform,Category,Model,Specialty,Base,Downloads
+Fal.ai,Text-to-Image,Imagen4 Preview,Commercial Quality,Google Proprietary,
+Fal.ai,Text-to-Image,FLUX.1 Pro Ultra,High Resolution,FLUX,
+Fal.ai,Text-to-Image,Recraft V3,Typography & Vector,Proprietary,
+Fal.ai,Text-to-Image,HiDream-I1,Fast Generation,Open Source,
+Fal.ai,Text-to-Image,Stable Diffusion 3.5 Large,Prompt Adherence,SD 3.x,
+Fal.ai,Image-to-Image,FLUX.1 Kontext Pro,Reference-guided Editing,FLUX,
+Fal.ai,Image-to-Image,Ideogram Character Edit,Character Consistency,Proprietary,
+Fal.ai,Text-to-Video,Veo 3,Cinematic Quality,Google Proprietary,
+Fal.ai,Text-to-Video,Marey,Licensed Data,Proprietary,
+Fal.ai,Image-to-Video,Kling 2.1 Master,Motion Fluidity,Proprietary,
+Fal.ai,Image-to-Video,Wan-2.2 A14B,Motion Diversity,Open Source,
+Fal.ai,Training,FLUX LoRA Fast Training,Style/Character Training,FLUX,
+Fal.ai,Training,Flux Kontext Trainer,Reference Training,FLUX,
+Civitai,Checkpoint,Pony Diffusion V6 XL,Anime/Anthro/Furry,SDXL,250.9M
+Civitai,Checkpoint,Illustrious XL v1.0,Anime Illustration,SDXL (Kohaku),6.4M
+Civitai,Checkpoint,Illustrious XL v1.1,Refined Anime,SDXL (Illustrious),82K
+Civitai,Checkpoint,NoobAI-XL V-Pred 1.0,Comprehensive Anime,SDXL Custom,3.3M
+Civitai,Checkpoint,NoobAI-XL EPS 1.1,Anime + Natural Language,SDXL Custom,3.2M
+Civitai,Checkpoint,DreamShaper XL,Photorealism,SDXL,275K+
+Civitai,Checkpoint,Anime Art Diffusion XL,Anime,SDXL,21K
+Civitai,Checkpoint,Anything V5,Versatile Anime,SD 1.5,High
+Civitai,Checkpoint,Counterfeit V3.0,Stylized Anime,SD 1.5,High
+Civitai,Checkpoint,YesMix,Anime NSFW,SD 1.5,1.3K
+Civitai,LoRA,Styles For Pony V6 XL,Style Adaptation,Pony,11.2M
+Civitai,LoRA,Character LoRAs,Specific Characters,Various,Varies
+Civitai,VAE,SharpSpectrumVAEXL,Color Enhancement,SDXL,714.1K
+Civitai,VAE,SDXL VAE,Standard Enhancement,SDXL,Standard
+Civitai,Embedding,EasyNegative,Quality Improvement,Universal,Very High

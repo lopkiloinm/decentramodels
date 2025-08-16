@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Model Hub - Unified Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header__content">
+                <div class="header__logo">
+                    <h2>AI Model Hub</h2>
+                    <span class="header__tagline">Best of Both Worlds</span>
+                </div>
+                
+                <nav class="header__nav">
+                    <div class="nav__item dropdown">
+                        <button class="nav__link" data-dropdown="models">Models Hub</button>
+                        <div class="dropdown__content" id="models-dropdown">
+                            <a href="#anime" class="dropdown__item">Anime & Manga</a>
+                            <a href="#realistic" class="dropdown__item">Realistic</a>
+                            <a href="#video" class="dropdown__item">Video Generation</a>
+                            <a href="#training" class="dropdown__item">Training Models</a>
+                        </div>
+                    </div>
+                    <div class="nav__item dropdown">
+                        <button class="nav__link" data-dropdown="generate">Generate</button>
+                        <div class="dropdown__content" id="generate-dropdown">
+                            <a href="#quick" class="dropdown__item">Quick Generate</a>
+                            <a href="#batch" class="dropdown__item">Batch Processing</a>
+                            <a href="#api" class="dropdown__item">API Access</a>
+                        </div>
+                    </div>
+                    <div class="nav__item dropdown">
+                        <button class="nav__link" data-dropdown="training">Training</button>
+                        <div class="dropdown__content" id="training-dropdown">
+                            <a href="#lora" class="dropdown__item">LoRA Training</a>
+                            <a href="#finetune" class="dropdown__item">Fine-tuning</a>
+                            <a href="#datasets" class="dropdown__item">Datasets</a>
+                        </div>
+                    </div>
+                    <a href="#community" class="nav__link">Community</a>
+                </nav>
+
+                <div class="header__search">
+                    <input type="text" class="search__input" placeholder="Search models, styles, or creators...">
+                    <button class="search__button">🔍</button>
+                </div>
+
+                <div class="header__actions">
+                    <div class="platform-switcher">
+                        <button class="platform-btn platform-btn--active" data-platform="all">All</button>
+                        <button class="platform-btn" data-platform="civitai">Civitai</button>
+                        <button class="platform-btn" data-platform="fal">Fal.ai</button>
+                    </div>
+                    <button class="btn btn--primary">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero__content">
+                    <h1>The Ultimate AI Model Platform</h1>
+                    <p>Access community-driven models from Civitai and state-of-the-art commercial models from Fal.ai in one unified platform.</p>
+                    <div class="hero__stats">
+                        <div class="stat">
+                            <div class="stat__number">500K+</div>
+                            <div class="stat__label">Models Available</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__number">1M+</div>
+                            <div class="stat__label">Generations Daily</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat__number">150+</div>
+                            <div class="stat__label">Countries</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Smart Categories -->
+        <section class="categories">
+            <div class="container">
+                <h2>Smart Model Categories</h2>
+                <p>Multi-dimensional filtering system for precise model discovery</p>
+                
+                <div class="category-filters">
+                    <div class="filter-group">
+                        <label class="filter-label">Architecture</label>
+                        <select class="form-control filter-select" data-filter="architecture">
+                            <option value="">All Architectures</option>
+                            <option value="sdxl">SDXL</option>
+                            <option value="flux">Flux</option>
+                            <option value="sd15">SD 1.5</option>
+                            <option value="proprietary">Proprietary</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Style</label>
+                        <select class="form-control filter-select" data-filter="style">
+                            <option value="">All Styles</option>
+                            <option value="anime">Anime</option>
+                            <option value="realistic">Realistic</option>
+                            <option value="artistic">Artistic</option>
+                            <option value="abstract">Abstract</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Use Case</label>
+                        <select class="form-control filter-select" data-filter="usecase">
+                            <option value="">All Use Cases</option>
+                            <option value="character">Character</option>
+                            <option value="landscape">Landscape</option>
+                            <option value="concept">Concept</option>
+                            <option value="portrait">Portrait</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Quality</label>
+                        <select class="form-control filter-select" data-filter="quality">
+                            <option value="">All Quality</option>
+                            <option value="production">Production</option>
+                            <option value="standard">Standard</option>
+                            <option value="fast">Fast</option>
+                            <option value="experimental">Experimental</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platform Comparison -->
+        <section class="platform-comparison">
+            <div class="container">
+                <h2>Platform Strengths Comparison</h2>
+                <div class="comparison-chart">
+                    <div class="chart-container" style="position: relative; height: 400px;">
+                        <canvas id="platformChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Models -->
+        <section class="featured-models">
+            <div class="container">
+                <h2>Featured Models</h2>
+                <div class="model-grid" id="modelGrid">
+                    <!-- Models will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Specialized Sections -->
+        <section class="specialized-sections">
+            <div class="container">
+                <div class="section-tabs">
+                    <button class="tab-button tab-button--active" data-tab="anime">Anime & Manga</button>
+                    <button class="tab-button" data-tab="commercial">Commercial Models</button>
+                    <button class="tab-button" data-tab="training">Training Hub</button>
+                    <button class="tab-button" data-tab="community">Community Favorites</button>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane tab-pane--active" id="anime-tab">
+                        <h3>Anime & Manga Specialists</h3>
+                        <p>State-of-the-art models trained on Danbooru and specialized datasets</p>
+                        <div class="anime-models">
+                            <div class="model-highlight">
+                                <h4>Pony Diffusion V6 XL</h4>
+                                <div class="model-tags">
+                                    <span class="tag tag--platform">Civitai</span>
+                                    <span class="tag tag--base">SDXL</span>
+                                    <span class="tag tag--specialty">Furry/Anime</span>
+                                </div>
+                                <p>250.9M downloads • 4.8★ rating</p>
+                            </div>
+                            <div class="model-highlight">
+                                <h4>Illustrious XL v1.1</h4>
+                                <div class="model-tags">
+                                    <span class="tag tag--platform">Civitai</span>
+                                    <span class="tag tag--base">SDXL</span>
+                                    <span class="tag tag--specialty">Character</span>
+                                </div>
+                                <p>82K downloads • 4.9★ rating</p>
+                            </div>
+                            <div class="model-highlight">
+                                <h4>NoobAI-XL V-Pred</h4>
+                                <div class="model-tags">
+                                    <span class="tag tag--platform">Civitai</span>
+                                    <span class="tag tag--base">SDXL Custom</span>
+                                    <span class="tag tag--specialty">Comprehensive</span>
+                                </div>
+                                <p>3.3M downloads • 4.7★ rating</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="commercial-tab">
+                        <h3>Commercial Grade Models</h3>
+                        <p>Industry-leading models with enterprise reliability</p>
+                        <div class="commercial-models">
+                            <div class="model-highlight">
+                                <h4>Imagen4 Preview</h4>
+                                <div class="model-tags">
+                                    <span class="tag tag--platform">Fal.ai</span>
+                                    <span class="tag tag--base">Proprietary</span>
+                                    <span class="tag tag--cost">$0.05/image</span>
+                                </div>
+                                <p>Highest quality • 4.9★ rating</p>
+                            </div>
+                            <div class="model-highlight">
+                                <h4>FLUX.1 Kontext Pro</h4>
+                                <div class="model-tags">
+                                    <span class="tag tag--platform">Fal.ai</span>
+                                    <span class="tag tag--base">FLUX</span>
+                                    <span class="tag tag--cost">$0.03/image</span>
+                                </div>
+                                <p>Reference-guided editing • 4.8★ rating</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="training-tab">
+                        <h3>Training & Fine-tuning Hub</h3>
+                        <p>Tools and services for custom model training</p>
+                        <div class="training-options">
+                            <div class="training-card">
+                                <h4>LoRA Training</h4>
+                                <p>Fast training for subjects and styles</p>
+                                <ul>
+                                    <li>FLUX LoRA Fast Training</li>
+                                    <li>Portrait-optimized training</li>
+                                    <li>Style transfer training</li>
+                                </ul>
+                            </div>
+                            <div class="training-card">
+                                <h4>Video Training</h4>
+                                <p>Custom video model training</p>
+                                <ul>
+                                    <li>Hunyuan Video LoRA</li>
+                                    <li>LTX Video Training</li>
+                                    <li>Wan Video Training</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="community-tab">
+                        <h3>Community Favorites</h3>
+                        <p>Most popular models from our community</p>
+                        <div class="community-stats">
+                            <div class="stat-card">
+                                <h4>Most Downloaded</h4>
+                                <p>Pony Diffusion V6 XL</p>
+                                <span class="stat-number">250.9M</span>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Highest Rated</h4>
+                                <p>Illustrious XL v1.1</p>
+                                <span class="stat-number">4.9★</span>
+                            </div>
+                            <div class="stat-card">
+                                <h4>Trending</h4>
+                                <p>NoobAI-XL V-Pred</p>
+                                <span class="stat-number">↗ 150%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Comparison Tool -->
+        <section class="comparison-tool">
+            <div class="container">
+                <h2>Model Comparison Tool</h2>
+                <div class="comparison-interface">
+                    <div class="comparison-selectors">
+                        <div class="model-selector">
+                            <label class="form-label">Select Model A</label>
+                            <select class="form-control" id="modelA">
+                                <option value="">Choose a model...</option>
+                            </select>
+                        </div>
+                        <div class="comparison-vs">VS</div>
+                        <div class="model-selector">
+                            <label class="form-label">Select Model B</label>
+                            <select class="form-control" id="modelB">
+                                <option value="">Choose a model...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="comparison-results" id="comparisonResults">
+                        <p>Select two models to compare their features, performance, and costs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__content">
+                <div class="footer__section">
+                    <h4>AI Model Hub</h4>
+                    <p>Unifying the best AI models from across the ecosystem</p>
+                </div>
+                <div class="footer__section">
+                    <h5>Platform</h5>
+                    <ul>
+                        <li><a href="#models">Browse Models</a></li>
+                        <li><a href="#api">API Documentation</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer__section">
+                    <h5>Community</h5>
+                    <ul>
+                        <li><a href="#discord">Discord</a></li>
+                        <li><a href="#github" target="_blank">GitHub</a></li>
+                        <li><a href="#tutorials">Tutorials</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
