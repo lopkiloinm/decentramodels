@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import existing CSS to preserve the design system and classes */
+@import '../style.css'; 
