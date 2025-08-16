@@ -3,7 +3,7 @@ import type { ModelInfo } from './types';
 export const modelsData: ModelInfo[] = [
 	{
 		name: 'Pony Diffusion V6 XL',
-		platform: 'Civitai',
+		platform: 'Community',
 		category: 'Anime/Anthro',
 		base: 'SDXL',
 		downloads: '250.9M',
@@ -17,7 +17,7 @@ export const modelsData: ModelInfo[] = [
 	},
 	{
 		name: 'Illustrious XL v1.1',
-		platform: 'Civitai',
+		platform: 'Community',
 		category: 'Anime',
 		base: 'SDXL',
 		downloads: '82K',
@@ -31,7 +31,7 @@ export const modelsData: ModelInfo[] = [
 	},
 	{
 		name: 'NoobAI-XL V-Pred',
-		platform: 'Civitai',
+		platform: 'Community',
 		category: 'Anime',
 		base: 'SDXL Custom',
 		downloads: '3.3M',
@@ -45,7 +45,7 @@ export const modelsData: ModelInfo[] = [
 	},
 	{
 		name: 'Imagen4 Preview',
-		platform: 'Fal.ai',
+		platform: 'Hosted',
 		category: 'Commercial',
 		base: 'Proprietary',
 		api_cost: '$0.05/image',
@@ -59,7 +59,7 @@ export const modelsData: ModelInfo[] = [
 	},
 	{
 		name: 'FLUX.1 Kontext Pro',
-		platform: 'Fal.ai',
+		platform: 'Hosted',
 		category: 'Professional',
 		base: 'FLUX',
 		api_cost: '$0.03/image',
@@ -73,7 +73,7 @@ export const modelsData: ModelInfo[] = [
 	},
 	{
 		name: 'Veo 3',
-		platform: 'Fal.ai',
+		platform: 'Hosted',
 		category: 'Video',
 		base: 'Proprietary',
 		api_cost: '$0.50/video',
@@ -87,7 +87,7 @@ export const modelsData: ModelInfo[] = [
 	},
 	{
 		name: 'Realistic Vision V6.0',
-		platform: 'Civitai',
+		platform: 'Community',
 		category: 'Realistic',
 		base: 'SDXL',
 		downloads: '45.2M',
@@ -101,7 +101,7 @@ export const modelsData: ModelInfo[] = [
 	},
 	{
 		name: 'FLUX.1 Dev',
-		platform: 'Fal.ai',
+		platform: 'Hosted',
 		category: 'Open Source',
 		base: 'FLUX',
 		api_cost: '$0.02/image',
@@ -115,33 +115,4 @@ export const modelsData: ModelInfo[] = [
 	},
 ];
 
-export const platformData = {
-	labels: [
-		'Community Models',
-		'API Infrastructure',
-		'Anime/Manga Models',
-		'Commercial Models',
-		'Training Tools',
-		'Speed',
-		'Cost Effectiveness',
-		'Customization',
-		'Reliability',
-		'Model Variety',
-	],
-	datasets: [
-		{
-			label: 'Civitai',
-			data: [10, 4, 9, 3, 6, 6, 9, 10, 7, 9],
-			backgroundColor: '#3B82F6',
-			borderColor: '#3B82F6',
-			borderWidth: 1,
-		},
-		{
-			label: 'Fal.ai',
-			data: [3, 10, 4, 10, 8, 9, 6, 5, 9, 7],
-			backgroundColor: '#F97316',
-			borderColor: '#F97316',
-			borderWidth: 1,
-		},
-	],
-}; 
+export const platformData = undefined; 

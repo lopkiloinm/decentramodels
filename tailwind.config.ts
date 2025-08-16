@@ -6,5 +6,8 @@ export default {
 		extend: {},
 	},
 	darkMode: 'media',
+	corePlugins: {
+		preflight: false,
+	},
 	plugins: [],
 } satisfies Config; 

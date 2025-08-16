@@ -1,5 +1,5 @@
 import React from 'react';
-import type { FiltersState, PlatformSlug } from '../types';
+import type { PlatformSlug } from '../types';
 
 interface HeaderProps {
 	platform: PlatformSlug;
@@ -15,13 +15,12 @@ export const Header: React.FC<HeaderProps> = ({ platform, onPlatformChange, onSe
 			<div className="container">
 				<div className="header__content">
 					<div className="header__logo">
-						<h2>AI Model Hub</h2>
-						<span className="header__tagline">Best of Both Worlds</span>
+						<h2>DecentraModels</h2>
 					</div>
 
 					<nav className="header__nav">
 						<div className="nav__item dropdown">
-							<button className="nav__link" data-dropdown="models">Models Hub</button>
+							<button className="nav__link" data-dropdown="models">Models</button>
 							<div className="dropdown__content" id="models-dropdown">
 								<a href="#anime" className="dropdown__item">Anime & Manga</a>
 								<a href="#realistic" className="dropdown__item">Realistic</a>
@@ -70,20 +69,6 @@ export const Header: React.FC<HeaderProps> = ({ platform, onPlatformChange, onSe
 								onClick={() => onPlatformChange('all')}
 							>
 								All
-							</button>
-							<button
-								className={`platform-btn ${platform === 'civitai' ? 'platform-btn--active' : ''}`}
-								data-platform="civitai"
-								onClick={() => onPlatformChange('civitai')}
-							>
-								Civitai
-							</button>
-							<button
-								className={`platform-btn ${platform === 'fal' ? 'platform-btn--active' : ''}`}
-								data-platform="fal"
-								onClick={() => onPlatformChange('fal')}
-							>
-								Fal.ai
 							</button>
 						</div>
 						<button className="btn btn--primary">Sign In</button>
