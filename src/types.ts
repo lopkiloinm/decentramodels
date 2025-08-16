@@ -1,8 +1,8 @@
-export type PlatformSlug = 'all' | 'civitai' | 'fal';
+export type PlatformSlug = 'all' | 'community' | 'hosted';
 
 export interface ModelInfo {
 	name: string;
-	platform: 'Civitai' | 'Fal.ai';
+	platform: string;
 	category: string;
 	base: string;
 	downloads?: string;
