@@ -128,3 +128,14 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# ai models
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.h5
+*.hdf5
+*.onnx
+*.pb
+*.tflite
