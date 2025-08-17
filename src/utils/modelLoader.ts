@@ -222,6 +222,16 @@ function mapCsvRowToModel(row: string[], headers?: string[]): ModelInfo | null {
 			popularity_score,
 			source: mapPlatformToSource(platform),
 			verified: true,
+			subtitle: '',
+			description: '',
+			primaryUseCase: '',
+			keyFeatures: [],
+			performance: '',
+			recommendedSettings: '',
+			creator: '',
+			license: '',
+			modelSize: '',
+			trainingDataset: '',
 		};
 	} else {
 		// models.csv format
@@ -252,6 +262,16 @@ function mapCsvRowToModel(row: string[], headers?: string[]): ModelInfo | null {
 			popularity_score,
 			source: mapPlatformToSource(platform),
 			verified: true,
+			subtitle: '',
+			description: '',
+			primaryUseCase: '',
+			keyFeatures: [],
+			performance: '',
+			recommendedSettings: '',
+			creator: '',
+			license: '',
+			modelSize: '',
+			trainingDataset: '',
 		};
 	}
 }
@@ -321,6 +341,16 @@ export const loadModelsFromCSV = {
 			popularity_score: Math.floor(Math.random() * 50000 + 10000),
 			source: 'community',
 			verified: true,
+			subtitle: '',
+			description: '',
+			primaryUseCase: '',
+			keyFeatures: [],
+			performance: '',
+			recommendedSettings: '',
+			creator: '',
+			license: '',
+			modelSize: '',
+			trainingDataset: '',
 		}));
 		
 		// Generate Character LoRAs
@@ -344,6 +374,16 @@ export const loadModelsFromCSV = {
 			popularity_score: Math.floor(Math.random() * 100000 + 20000),
 			source: 'community',
 			verified: true,
+			subtitle: '',
+			description: '',
+			primaryUseCase: '',
+			keyFeatures: [],
+			performance: '',
+			recommendedSettings: '',
+			creator: '',
+			license: '',
+			modelSize: '',
+			trainingDataset: '',
 		}));
 		
 		// Add generated LoRAs to the model list

@@ -99,6 +99,52 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, compact }
 				</div>
 
 				<div className="model-card__specialty">{model.specialty}</div>
+				
+				<div className="model-card__extended-info">
+					<div className="model-card__description">
+						<h5>Description</h5>
+						<p>{model.description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'}</p>
+					</div>
+					
+					<div className="model-card__details-grid">
+						<div className="detail-item">
+							<span className="detail-label">Primary Use Case</span>
+							<span className="detail-value">{model.primaryUseCase || 'Lorem ipsum use case'}</span>
+						</div>
+						<div className="detail-item">
+							<span className="detail-label">Creator</span>
+							<span className="detail-value">{model.creator || 'Lorem Creator'}</span>
+						</div>
+						<div className="detail-item">
+							<span className="detail-label">License</span>
+							<span className="detail-value">{model.license || 'Lorem License'}</span>
+						</div>
+						<div className="detail-item">
+							<span className="detail-label">Model Size</span>
+							<span className="detail-value">{model.modelSize || '7.5GB'}</span>
+						</div>
+					</div>
+					
+					{model.keyFeatures && model.keyFeatures.length > 0 ? (
+						<div className="model-card__features">
+							<h5>Key Features</h5>
+							<ul>
+								{model.keyFeatures.map((feature, idx) => (
+									<li key={idx}>{feature}</li>
+								))}
+							</ul>
+						</div>
+					) : (
+						<div className="model-card__features">
+							<h5>Key Features</h5>
+							<ul>
+								<li>Lorem ipsum feature one</li>
+								<li>Lorem ipsum feature two</li>
+								<li>Lorem ipsum feature three</li>
+							</ul>
+						</div>
+					)}
+				</div>
 			</div>
 
 			<footer className="model-card__footer">

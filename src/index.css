@@ -428,6 +428,36 @@ html {
   font-size: var(--font-size-xs);
 }
 
+.model-card__subtitle {
+  margin: 0 0 var(--space-8) 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.model-card__info-compact {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-8);
+}
+
+.model-card__creator {
+  font-style: italic;
+}
+
+.model-card__size {
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
 .badge--new {
   background: var(--color-success);
   color: white;
@@ -437,6 +467,79 @@ html {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* Extended Model Card Info (Full View) */
+.model-card__extended-info {
+  margin-top: var(--space-16);
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--color-border);
+}
+
+.model-card__description {
+  margin-bottom: var(--space-16);
+}
+
+.model-card__description h5 {
+  margin: 0 0 var(--space-8) 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.model-card__description p {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.model-card__details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-12);
+  margin-bottom: var(--space-16);
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.detail-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.detail-value {
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+}
+
+.model-card__features {
+  margin-top: var(--space-16);
+}
+
+.model-card__features h5 {
+  margin: 0 0 var(--space-8) 0;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.model-card__features ul {
+  margin: 0;
+  padding-left: var(--space-20);
+  list-style: disc;
+}
+
+.model-card__features li {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-bottom: var(--space-4);
 }
 
 .no-results {

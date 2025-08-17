@@ -78,7 +78,7 @@ const workflowExamples: WorkflowExample[] = [
 	},
 	{
 		id: 'master-agent',
-		name: 'Intelligent Multi-Model Generation',
+		name: 'Intelligent Routing Generation',
 		description: 'Let AI decide optimal model combinations for your prompt',
 		steps: [
 			{
