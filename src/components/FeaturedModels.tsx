@@ -253,20 +253,20 @@ export const FeaturedModels: React.FC<FeaturedModelsProps> = ({ filters, search 
 	}
 
 	return (
-		<section className="featured-models" id="models">
+		<section className="featured-models">
 			<div className="container">
-				<h2>Featured Models</h2>
 				<div className="model-grid">
-					{visible.map((m) => (
-						<ModelCard key={m.name} model={m} onAction={onAction} onDetails={onDetails} />
-					))}
+					{visible.length > 0 ? (
+						visible.map(model => (
+							<ModelCard key={model.name} model={model} onAction={onAction} onDetails={onDetails} />
+						))
+					) : (
+						<div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '48px', color: 'var(--color-text-secondary)' }}>
+							No models found matching your criteria
+						</div>
+					)}
 				</div>
-				<div ref={sentinelRef} style={{ height: 1 }} />
-				{visible.length === 0 && (
-					<p className="m-0" style={{ textAlign: 'center', color: 'var(--color-text-secondary)' }}>
-						No models match your filters.
-					</p>
-				)}
+				<div ref={sentinelRef} style={{ height: '1px' }} />
 			</div>
 		</section>
 	);
