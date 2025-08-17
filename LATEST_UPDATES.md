@@ -17,10 +17,10 @@ Created `ModelOptimizer` component that appears when selecting a model:
 
 ### 3. ✅ **Added Modality Labels**
 Each model card now displays its modality:
-- T2I (Text-to-Image)
-- I2I (Image-to-Image)
-- T2V (Text-to-Video)
-- LoRA, Embed, Ckpt, etc.
+- Text to Image
+- Image to Image
+- Text to Video
+- LoRA, Embedding, Checkpoint, etc.
 - Displayed as a small badge next to the source icon
 
 ### 4. ✅ **Changed Date Format**
@@ -50,7 +50,7 @@ interface OptimizationOptions {
 ```
 
 ### Modality Badge
-- Compact display format (T2I, I2I, etc.)
+- Compact display format (Text to Image, Image to Image, etc.)
 - Primary color background for visibility
 - Integrated into both compact and full card views
 

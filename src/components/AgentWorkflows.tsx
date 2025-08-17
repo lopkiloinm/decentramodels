@@ -77,12 +77,12 @@ const workflowExamples: WorkflowExample[] = [
 		icon: '🎬'
 	},
 	{
-		id: 'master-agent-workflow',
+		id: 'master-agent',
 		name: 'Intelligent Multi-Model Generation',
-		description: 'Let the Master Agent decide optimal model combinations for your prompt',
+		description: 'Let AI decide optimal model combinations for your prompt',
 		steps: [
 			{
-				model: 'Master Agent',
+				model: 'Prompt Analyzer',
 				action: 'Analyze prompt and determine best approach',
 				output: 'Routing strategy with confidence scores'
 			},
@@ -205,7 +205,9 @@ const AgentWorkflows: React.FC = () => {
 										<div className="workflow-step">
 											<div className="step-model">{step.model}</div>
 											<div className="step-action">{step.action}</div>
-											<div className="step-output">→ {step.output}</div>
+											<div className="step-output">
+												{idx < selectedWorkflow.steps.length - 1 ? '→' : '✓'} {step.output}
+											</div>
 										</div>
 										{idx < selectedWorkflow.steps.length - 1 && (
 											<div className="workflow-arrow">↓</div>

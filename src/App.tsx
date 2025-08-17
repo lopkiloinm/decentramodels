@@ -4,7 +4,6 @@ import QuickAccessBar from './components/QuickAccessBar';
 import ModelSections from './components/ModelSections';
 import ModelTrainers from './components/ModelTrainers';
 import AgentWorkflows from './components/AgentWorkflows';
-import MasterAgent from './components/MasterAgent';
 import Footer from './components/Footer';
 import type { FiltersState, PlatformSlug } from './types';
 import { loadModelsFromCSV } from './utils/modelLoader';
@@ -98,14 +97,6 @@ const App: React.FC = () => {
 			</div>
 			
 			<AgentWorkflows />
-			
-			<div className="divider-section">
-				<div className="container">
-					<hr className="section-divider" />
-				</div>
-			</div>
-			
-			<MasterAgent />
 			
 			<Footer />
 		</main>

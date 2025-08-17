@@ -75,9 +75,7 @@ const SECTIONS: ModelSection[] = [
 		description: 'Best style LoRAs for artistic control',
 		filter: (model) => {
 			return model.category?.toLowerCase() === 'lora' && 
-				   (model.specialty?.toLowerCase().includes('style') ||
-				    model.name.toLowerCase().includes('style') ||
-				    model.style !== 'realistic');
+				   model.usecase === 'style';
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
 		initialCount: 8
@@ -89,9 +87,7 @@ const SECTIONS: ModelSection[] = [
 		description: 'Best character LoRAs for consistent generation',
 		filter: (model) => {
 			return model.category?.toLowerCase() === 'lora' && 
-				   (model.specialty?.toLowerCase().includes('character') ||
-				    model.name.toLowerCase().includes('character') ||
-				    model.usecase === 'character');
+				   model.usecase === 'character';
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
 		initialCount: 8
