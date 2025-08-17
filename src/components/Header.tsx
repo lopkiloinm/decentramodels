@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { DynamicWidget } from '@dynamic-labs/sdk-react-core';
 import type { PlatformSlug, FiltersState, Modality } from '../types';
 
 interface HeaderProps {
@@ -172,8 +173,8 @@ export const Header: React.FC<HeaderProps> = ({ platform, onPlatformChange, onSe
 					</div>
 
 					<div className="header__actions">
-						{/* Removed filter tabs per feedback */}
-						<button className="btn btn--primary">Sign In</button>
+						{/* Wallet connect widget */}
+						<DynamicWidget />
 					</div>
 				</div>
 
