@@ -77,6 +77,40 @@ const workflowExamples: WorkflowExample[] = [
 		icon: '🎬'
 	},
 	{
+		id: 'style-transfer-training',
+		name: 'Bidirectional Style Transfer Training',
+		description: 'Generate synthetic training data to teach image-to-image models style transfer capabilities',
+		steps: [
+			{
+				model: 'Text-to-Image + Style LoRA',
+				action: 'Generate 20+ diverse images in specific art style',
+				output: 'Styled images with consistent aesthetic'
+			},
+			{
+				model: 'Image-to-Image Editor',
+				action: 'Convert styled images to realistic with "make realistic" prompt',
+				output: 'Realistic versions of styled content'
+			},
+			{
+				model: 'Data Pair Inversion',
+				action: 'Create bidirectional training pairs (styled↔realistic)',
+				output: 'Complete training dataset with inverse mappings'
+			},
+			{
+				model: 'LoRA Trainer',
+				action: 'Create LoRA on synthetic pairs for style transfer',
+				output: 'Image editor LoRA capable of applying/removing styles'
+			}
+		],
+		benefits: [
+			'Bring any artistic style to image-to-image models',
+			'Enable both stylization and de-stylization',
+			'No manual dataset curation required',
+			'Transfer knowledge from text-to-image to image-to-image'
+		],
+		icon: '🔄'
+	},
+	{
 		id: 'master-agent',
 		name: 'Intelligent Routing Generation',
 		description: 'Let AI decide optimal model combinations for your prompt',

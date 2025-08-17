@@ -28,6 +28,8 @@ const SECTIONS: ModelSection[] = [
 		filter: (model) => {
 			// Exclude training models
 			if (model.category?.toLowerCase() === 'training') return false;
+			// Exclude utility models (VAE, embeddings)
+			if (['vae', 'embedding'].includes(model.category?.toLowerCase())) return false;
 			return (model.trending_score || 0) > 50;
 		},
 		sort: (a, b) => (b.trending_score || 0) - (a.trending_score || 0),
@@ -41,6 +43,9 @@ const SECTIONS: ModelSection[] = [
 		filter: (model) => {
 			// Exclude training models - they belong in the training section
 			if (model.category?.toLowerCase() === 'training') return false;
+			
+			// Exclude VAEs and embeddings - they go in community section
+			if (['vae', 'embedding'].includes(model.category?.toLowerCase())) return false;
 			
 			// Identify foundation models by their creators or well-known model names
 			const labCreators = ['Black Forest Labs', 'Stability AI', 'OpenAI', 'Alibaba', 'RunwayML', 
@@ -66,7 +71,7 @@ const SECTIONS: ModelSection[] = [
 		id: 'community',
 		title: 'Community Checkpoints',
 		icon: '🎨',
-		description: 'Best checkpoints created by the community',
+		description: 'Best checkpoints, VAEs, and tools created by the community',
 		filter: (model) => {
 			// Exclude training models
 			if (model.category?.toLowerCase() === 'training') return false;
@@ -79,10 +84,10 @@ const SECTIONS: ModelSection[] = [
 			const foundationModels = ['FLUX', 'Stable Diffusion', 'Whisper', 'Qwen', 'AuraFlow', 'LTX Video'];
 			const isFoundationModel = foundationModels.some(name => model.name.includes(name));
 			
-			// Include checkpoints that are NOT foundation models and NOT LoRAs
+			// Include checkpoints, VAEs, and embeddings that are NOT from labs
+			const validCategories = ['checkpoint', 'vae', 'embedding'];
 			return !hasLabCreator && !isFoundationModel && 
-			       model.category?.toLowerCase() === 'checkpoint' &&
-			       model.category?.toLowerCase() !== 'lora';
+			       validCategories.includes(model.category?.toLowerCase());
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
 		initialCount: 6
@@ -114,7 +119,10 @@ const SECTIONS: ModelSection[] = [
 ];
 
 export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, search }) => {
-	const MODELS_PER_PAGE = 6;
+	// Dynamic models per page based on grid columns
+	const [columnsPerRow, setColumnsPerRow] = React.useState(3); // Default to 3 columns
+	const ROWS_PER_PAGE = 2;
+	const modelsPerPage = columnsPerRow * ROWS_PER_PAGE;
 	
 	const [currentPages, setCurrentPages] = React.useState<Record<string, number>>({
 		trending: 1,
@@ -133,6 +141,66 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 	});
 
 	const [selectedModel, setSelectedModel] = React.useState<ModelInfo | null>(null);
+	
+	// Calculate columns based on actual grid behavior
+	React.useEffect(() => {
+		const calculateColumns = () => {
+			// Get the first model grid element
+			const grid = document.querySelector('.model-grid--compact');
+			if (!grid) {
+				// Fallback calculation based on window width
+				const windowWidth = window.innerWidth;
+				if (windowWidth <= 768) {
+					setColumnsPerRow(1);
+				} else if (windowWidth <= 1024) {
+					setColumnsPerRow(2);
+				} else if (windowWidth <= 1440) {
+					setColumnsPerRow(3);
+				} else if (windowWidth <= 1920) {
+					setColumnsPerRow(4);
+				} else {
+					setColumnsPerRow(5);
+				}
+				return;
+			}
+			
+			// Get computed style to see actual grid columns
+			const computedStyle = window.getComputedStyle(grid);
+			const templateColumns = computedStyle.getPropertyValue('grid-template-columns');
+			
+			// Count the number of columns by counting space-separated values
+			const columnCount = templateColumns.split(' ').filter(val => val !== '0px').length;
+			
+			if (columnCount > 0 && columnCount <= 6) {
+				setColumnsPerRow(columnCount);
+			} else {
+				// Fallback if we can't determine from CSS
+				const firstCard = grid.querySelector('.model-card');
+				if (firstCard) {
+					const gridWidth = grid.getBoundingClientRect().width;
+					const cardWidth = firstCard.getBoundingClientRect().width;
+					const calculatedColumns = Math.floor(gridWidth / cardWidth);
+					setColumnsPerRow(Math.max(1, Math.min(calculatedColumns, 6)));
+				}
+			}
+		};
+		
+		// Wait for DOM to render before calculating
+		const timeoutId = setTimeout(calculateColumns, 100);
+		
+		// Also recalculate when models change (grid might appear/disappear)
+		const intervalId = setInterval(calculateColumns, 500);
+		setTimeout(() => clearInterval(intervalId), 2000); // Stop after 2 seconds
+		
+		window.addEventListener('resize', calculateColumns);
+		return () => {
+			clearTimeout(timeoutId);
+			clearInterval(intervalId);
+			window.removeEventListener('resize', calculateColumns);
+		};
+	}, []);
+	
+
 
 	// Filter models based on search and filters
 	const filteredModels = React.useMemo(() => {
@@ -170,6 +238,26 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 
 		return result;
 	}, [filteredModels]);
+	
+	// Adjust current pages if they're out of bounds after resize
+	React.useEffect(() => {
+		SECTIONS.forEach(section => {
+			const sectionModels = categorizedModels[section.id] || [];
+			const totalPages = Math.ceil(sectionModels.length / modelsPerPage);
+			const currentPage = currentPages[section.id];
+			
+			if (currentPage > totalPages && totalPages > 0) {
+				setCurrentPages(prev => ({
+					...prev,
+					[section.id]: totalPages
+				}));
+				setPageInputs(prev => ({
+					...prev,
+					[section.id]: totalPages.toString()
+				}));
+			}
+		});
+	}, [modelsPerPage, categorizedModels]);
 
 	const handlePageChange = (sectionId: string, page: number) => {
 		setCurrentPages(prev => ({
@@ -266,9 +354,9 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 					{SECTIONS.map(section => {
 						const sectionModels = categorizedModels[section.id] || [];
 						const currentPage = currentPages[section.id];
-						const totalPages = Math.ceil(sectionModels.length / MODELS_PER_PAGE);
-						const startIndex = (currentPage - 1) * MODELS_PER_PAGE;
-						const endIndex = startIndex + MODELS_PER_PAGE;
+						const totalPages = Math.ceil(sectionModels.length / modelsPerPage);
+						const startIndex = (currentPage - 1) * modelsPerPage;
+						const endIndex = startIndex + modelsPerPage;
 						const visibleModels = sectionModels.slice(startIndex, endIndex);
 
 						if (sectionModels.length === 0) return null;

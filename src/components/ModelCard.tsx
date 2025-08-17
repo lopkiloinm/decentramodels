@@ -22,17 +22,20 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, compact }
 	
 	// Get modality display
 	const getModalityLabel = (modality: string) => {
-		const modalityMap: Record<string, string> = {
-			'text-to-image': 'Text to Image',
-			'image-to-image': 'Image to Image',
-			'text-to-video': 'Text to Video',
-			'image-to-video': 'Image to Video',
-			'text-to-speech': 'Text to Speech',
-			'training': 'Training',
-			'lora': 'LoRA',
-			'embedding': 'Embedding',
-			'checkpoint': 'Checkpoint'
-		};
+			const modalityMap: Record<string, string> = {
+		'text-to-image': 'Text to Image',
+		'image-to-image': 'Image to Image',
+		'text-to-video': 'Text to Video',
+		'image-to-video': 'Image to Video',
+		'text-to-speech': 'Text to Speech',
+		'speech-to-text': 'Speech to Text',
+		'image-to-3d': 'Image to 3D',
+		'training': 'Training',
+		'lora': 'LoRA',
+		'embedding': 'Embedding',
+		'vae': 'VAE',
+		'checkpoint': 'Checkpoint'
+	};
 		return modalityMap[modality] || modality;
 	};
 
