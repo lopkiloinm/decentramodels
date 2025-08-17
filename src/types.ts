@@ -46,6 +46,17 @@ export interface ModelInfo {
 	source?: 'lab' | 'community';
 	lastUpdated?: string; // ISO date string
 	verified?: boolean; // Real model flag
+	// Additional descriptive fields
+	subtitle?: string;
+	description?: string;
+	primaryUseCase?: string;
+	keyFeatures?: string[];
+	performance?: string;
+	recommendedSettings?: string;
+	creator?: string;
+	license?: string;
+	modelSize?: string;
+	trainingDataset?: string;
 }
 
 export interface FiltersState {

@@ -39,22 +39,33 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, compact }
 	if (compact) {
 		return (
 			<div className="model-card model-card--compact">
-				<div className="model-card__info">
-					<h4 className="model-card__name">{model.name}</h4>
-					<div className="model-card__meta">
+				<div className="model-card__header">
+					<div className="model-card__header-left">
 						<span className="model-card__source">
 							{model.source === 'lab' ? '🏢' : '🎨'}
 						</span>
-						<span className="modality-badge">{getModalityLabel(model.modality)}</span>
-						<span>{model.downloads || 'N/A'}</span>
+						<h4 className="model-card__name">{model.name}</h4>
+					</div>
+					<span className="modality-badge">{getModalityLabel(model.modality)}</span>
+				</div>
+				<div className="model-card__content">
+					<p className="model-card__subtitle">
+						{model.subtitle || 'Lorem ipsum dolor sit amet'}
+					</p>
+					<div className="model-card__meta">
+						<span>{model.downloads || 'N/A'} downloads</span>
 						<span>⭐ {model.rating.toFixed(1)}</span>
 						{dateDisplay && <span className="model-card__date">{dateDisplay}</span>}
 					</div>
-				</div>
-				<div className="model-card__actions">
-					<button className="btn btn--primary btn--sm" onClick={() => onAction(model)}>
-						Use
-					</button>
+					<div className="model-card__info-compact">
+						<span className="model-card__creator">By {model.creator || 'Lorem Creator'}</span>
+						<span className="model-card__size">{model.modelSize || '7.5GB'}</span>
+					</div>
+					<div className="model-card__actions">
+						<button className="btn btn--primary btn--sm" onClick={() => onAction(model)}>
+							Use Model
+						</button>
+					</div>
 				</div>
 			</div>
 		);

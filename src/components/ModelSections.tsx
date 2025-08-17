@@ -47,7 +47,7 @@ const SECTIONS: ModelSection[] = [
 			}
 			return (b.popularity_score || 0) - (a.popularity_score || 0);
 		},
-		initialCount: 8
+		initialCount: 6
 	},
 	{
 		id: 'community',
@@ -66,7 +66,7 @@ const SECTIONS: ModelSection[] = [
 			);
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
-		initialCount: 12
+		initialCount: 6
 	},
 	{
 		id: 'style-loras',
@@ -78,7 +78,7 @@ const SECTIONS: ModelSection[] = [
 				   model.usecase === 'style';
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
-		initialCount: 8
+		initialCount: 6
 	},
 	{
 		id: 'character-loras',
@@ -90,7 +90,7 @@ const SECTIONS: ModelSection[] = [
 				   model.usecase === 'character';
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
-		initialCount: 8
+		initialCount: 6
 	}
 ];
 
