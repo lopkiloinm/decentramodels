@@ -753,9 +753,10 @@ html {
 
 .workflow-steps {
   margin-bottom: var(--space-24);
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
   scrollbar-width: thin;
+  padding-bottom: var(--space-8);
 }
 
 .workflow-steps::-webkit-scrollbar {
@@ -774,6 +775,10 @@ html {
   border-radius: var(--radius-base);
   padding: var(--space-16);
   margin-bottom: var(--space-8);
+}
+
+.workflow-step:last-child {
+  margin-bottom: 0;
 }
 
 .step-model {
