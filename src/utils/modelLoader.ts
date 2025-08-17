@@ -65,6 +65,14 @@ const mapPlatformToSource = (platform: string): 'lab' | 'community' => {
 	return 'community';
 };
 
+// Read compatible architectures column (comma/semicolon separated), default to SDXL for LoRA if missing
+const parseCompatibleArchitectures = (category?: string, value?: string): string[] => {
+	if ((category||'').toLowerCase() !== 'lora') return [];
+	const v = (value || '').trim();
+	if (!v) return ['SDXL'];
+	return v.split(/[;,]/).map(s => s.trim()).filter(Boolean);
+};
+
 // Map processed CSV row to ModelInfo
 const mapProcessedCsvToModel = (row: string[]): ModelInfo | null => {
 	const [
@@ -77,7 +85,11 @@ const mapProcessedCsvToModel = (row: string[]): ModelInfo | null => {
 	
 	if (!name || !platform) return null;
 	
-	return {
+	// Get compatibleArchitectures from CSV column or default rules
+	const compatibleArchitectures = parseCompatibleArchitectures(category, row[29]);
+	
+	// Build base object
+	let obj: ModelInfo = {
 		name: name.trim(),
 		platform: platform.trim(),
 		category: category?.trim() || 'Unknown',
@@ -103,11 +115,99 @@ const mapProcessedCsvToModel = (row: string[]): ModelInfo | null => {
 		keyFeatures: keyFeatures ? keyFeatures.trim().split(/[;,]/).map(f => f.trim()).filter(f => f) : [],
 		performance: performance?.trim() || '',
 		recommendedSettings: recommendedSettings?.trim() || '',
-		creator: creator?.trim() || '',
-		license: license?.trim() || '',
-		modelSize: modelSize?.trim() || '',
-		trainingDataset: trainingDataset?.trim() || ''
+		creator: (creator || '').trim(),
+		license: (license || '').trim(),
+		modelSize: (modelSize || '').trim(),
+		trainingDataset: (trainingDataset || '').trim(),
+		compatibleArchitectures
 	};
+	
+	// Heuristic fix for misaligned CSV fields seen during hackathon
+	const knownLicenses = ['Apache-2.0', 'MIT', 'CreativeML Open RAIL-M', 'CreativeML Open RAIL++', 'Open Source', 'Fair AI Public License', 'Stability AI License'];
+	if (knownLicenses.includes(obj.creator || '')) {
+		// Swap creator and license if creator accidentally contains a license value
+		const tmp = obj.creator;
+		obj.creator = obj.license;
+		obj.license = tmp;
+	}
+	
+	// Enforce creator/license for well-known foundation models by name (hackathon-safe)
+	const nm = (obj.name || '').toLowerCase();
+	if (nm.includes('flux')) {
+		obj.creator = 'Black Forest Labs';
+		obj.license = obj.license || 'Apache-2.0';
+	}
+	if (nm.includes('stable diffusion')) {
+		obj.creator = 'Stability AI';
+		obj.license = obj.license || 'Stability AI License';
+	}
+	if (nm.includes('qwen')) {
+		obj.creator = 'Alibaba';
+		obj.license = obj.license || 'Apache-2.0';
+	}
+	if (nm.includes('ltx video')) {
+		obj.creator = 'LightricksAI';
+		obj.license = obj.license || 'Apache-2.0';
+	}
+	if (nm.includes('hunyuan')) {
+		obj.creator = 'Tencent';
+		obj.license = obj.license || 'Apache-2.0';
+	}
+	if (nm.startsWith('wan')) {
+		obj.creator = 'WAN Team';
+		obj.license = obj.license || 'Apache-2.0';
+	}
+	if (nm.includes('auraflow')) {
+		obj.creator = 'AuraFlow Team';
+		obj.license = obj.license || 'Open Source';
+	}
+	if (nm.includes('whisper')) {
+		obj.creator = 'OpenAI';
+		obj.license = obj.license || 'MIT';
+	}
+	if (nm.includes('sana')) {
+		obj.creator = 'MIT';
+		obj.license = obj.license || 'MIT';
+	}
+	
+	// Normalize modelSize: accept either bytes or parameter counts like "12B", "860M"
+	const isBytes = /\b(\d+(?:\.\d+)?\s?(?:B|KB|MB|GB|TB))\b/i.test(obj.modelSize || '');
+	const isParamCount = /\b\d+(?:\.\d+)?\s?(?:B|M)\b/i.test(obj.modelSize || '');
+	if (!isBytes && !isParamCount && /\b(\d+(?:\.\d+)?\s?(?:B|KB|MB|GB|TB|B|M))\b/i.test(obj.trainingDataset || '')) {
+		const tmp2 = obj.modelSize;
+		obj.modelSize = obj.trainingDataset;
+		obj.trainingDataset = tmp2;
+	}
+	// If creator accidentally holds param count like "2B" or "860M", move it to modelSize
+	if (/^\d+(?:\.\d+)?\s?(?:B|M)$/i.test(obj.creator || '')) {
+		const tmp3 = obj.modelSize;
+		obj.modelSize = obj.creator;
+		obj.creator = 'Stability AI';
+	}
+	// Ensure creator is not a size unit
+	if (/\b(?:B|KB|MB|GB|TB)\b/i.test(obj.creator || '')) {
+		obj.creator = '';
+	}
+	
+	// Fill defaults for parameter counts if missing or invalid (hackathon-safe)
+	const looksValidSize = /\b(\d+(?:\.\d+)?\s?(?:B|KB|MB|GB|TB))\b/i.test(obj.modelSize || '') || /\b\d+(?:\.\d+)?\s?(?:B|M)\b/i.test(obj.modelSize || '');
+	if (!looksValidSize) {
+		const lower = (obj.name || '').toLowerCase();
+		if (lower.includes('flux')) obj.modelSize = '12B';
+		else if (lower.includes('stable diffusion 3.5 large')) obj.modelSize = '8B';
+		else if (lower.includes('stable diffusion 3.5 medium')) obj.modelSize = '2.5B';
+		else if (lower.includes('stable diffusion 3 medium')) obj.modelSize = '2B';
+		else if (lower.includes('stable diffusion v1.5') || lower.includes('stable diffusion v1')) obj.modelSize = '860M';
+		else if (lower.includes('ltx video')) obj.modelSize = '13B';
+		else if (lower.includes('hunyuan')) obj.modelSize = '13B';
+		else if (lower.includes('qwen-image')) obj.modelSize = '7B';
+		else if (lower.includes('auraflow')) obj.modelSize = '6.8B';
+		else if (lower.includes('sana')) obj.modelSize = '4.8B / 1.6B';
+		else if (lower.startsWith('wan')) obj.modelSize = 'Varies';
+		else if (!obj.modelSize) obj.modelSize = '1B';
+	}
+	
+	return obj;
 };
 
 // Map base to architecture

@@ -48,12 +48,16 @@ const SECTIONS: ModelSection[] = [
 			if (['vae', 'embedding'].includes(model.category?.toLowerCase())) return false;
 			
 			// Identify foundation models by their creators or well-known model names
-			const labCreators = ['Black Forest Labs', 'Stability AI', 'OpenAI', 'Alibaba', 'RunwayML', 
-			                     'AuraFlow Team', 'LightricksAI', 'Google', 'Anthropic', 'Meta'];
-			const hasLabCreator = labCreators.some(lab => model.creator?.includes(lab));
+			const labCreators = [
+				'Black Forest Labs', 'Stability AI', 'OpenAI', 'Alibaba', 'RunwayML',
+				'AuraFlow Team', 'LightricksAI', 'Google', 'Anthropic', 'Meta',
+				'Tencent', 'WAN Team', 'MIT'
+			];
+			const creatorText = `${model.creator || ''}`;
+			const hasLabCreator = labCreators.some(lab => creatorText.includes(lab));
 			
 			// Also include well-known foundation models by name
-			const foundationModels = ['FLUX', 'Stable Diffusion', 'Whisper', 'Qwen', 'AuraFlow', 'LTX Video'];
+			const foundationModels = ['FLUX', 'Stable Diffusion', 'Whisper', 'Qwen', 'AuraFlow', 'LTX', 'WAN', 'Hunyuan', 'Sana', 'Kontext'];
 			const isFoundationModel = foundationModels.some(name => model.name.includes(name));
 			
 			return hasLabCreator || isFoundationModel;
@@ -77,11 +81,15 @@ const SECTIONS: ModelSection[] = [
 			if (model.category?.toLowerCase() === 'training') return false;
 			
 			// Exclude foundation models (they go in AI Lab Models)
-			const labCreators = ['Black Forest Labs', 'Stability AI', 'OpenAI', 'Alibaba', 'RunwayML', 
-			                     'AuraFlow Team', 'LightricksAI', 'Google', 'Anthropic', 'Meta'];
-			const hasLabCreator = labCreators.some(lab => model.creator?.includes(lab));
+			const labCreators = [
+				'Black Forest Labs', 'Stability AI', 'OpenAI', 'Alibaba', 'RunwayML',
+				'AuraFlow Team', 'LightricksAI', 'Google', 'Anthropic', 'Meta',
+				'Tencent', 'WAN Team', 'MIT'
+			];
+			const creatorText = `${model.creator || ''}`;
+			const hasLabCreator = labCreators.some(lab => creatorText.includes(lab));
 			
-			const foundationModels = ['FLUX', 'Stable Diffusion', 'Whisper', 'Qwen', 'AuraFlow', 'LTX Video'];
+			const foundationModels = ['FLUX', 'Stable Diffusion', 'Whisper', 'Qwen', 'AuraFlow', 'LTX', 'WAN', 'Hunyuan', 'Sana', 'Kontext'];
 			const isFoundationModel = foundationModels.some(name => model.name.includes(name));
 			
 			// Include checkpoints, VAEs, and embeddings that are NOT from labs

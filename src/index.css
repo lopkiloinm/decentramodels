@@ -461,6 +461,33 @@ html {
   flex: 1;
 }
 
+/* Compatibility badges for LoRA cards */
+.compatibility-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.compatibility-badge {
+  padding: 2px 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  background: var(--color-background);
+  white-space: nowrap;
+}
+
+.compatibility-badge--active {
+  color: var(--color-text);
+  border-color: var(--color-primary);
+}
+
+.compatibility-badge--inactive {
+  color: var(--color-text-tertiary, #8a8a8a);
+  opacity: 0.7;
+}
+
 .model-card--compact .model-card__meta {
   display: flex;
   align-items: center;

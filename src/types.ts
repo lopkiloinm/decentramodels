@@ -57,6 +57,8 @@ export interface ModelInfo {
 	license?: string;
 	modelSize?: string;
 	trainingDataset?: string;
+	// LoRA compatibility across architectures
+	compatibleArchitectures?: string[];
 }
 
 export interface FiltersState {

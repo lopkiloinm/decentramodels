@@ -64,6 +64,21 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, compact }
 						<span className="model-card__creator">By {model.creator || 'Lorem Creator'}</span>
 						<span className="model-card__size">{model.modelSize || '7.5GB'}</span>
 					</div>
+					{model.category?.toLowerCase() === 'lora' && (
+						<div className="compatibility-badges">
+							{['Flux','Kontext','SDXL','WAN','Qwen-Image'].map((arch) => {
+								const isSupported = (model.compatibleArchitectures || []).includes(arch);
+								return (
+									<span 
+										key={arch} 
+										className={`compatibility-badge ${isSupported ? 'compatibility-badge--active' : 'compatibility-badge--inactive'}`}
+									>
+										{arch}
+									</span>
+								);
+							})}
+						</div>
+					)}
 					<div className="model-card__actions">
 						<button className="btn btn--primary btn--sm" onClick={() => onAction(model)}>
 							Use Model
@@ -136,7 +151,7 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, compact }
 									<li key={idx}>{feature}</li>
 								))}
 							</ul>
-						</div>
+			</div>
 					) : (
 						<div className="model-card__features">
 							<h5>Key Features</h5>
@@ -145,9 +160,9 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, compact }
 								<li>Lorem ipsum feature two</li>
 								<li>Lorem ipsum feature three</li>
 							</ul>
-						</div>
+			</div>
 					)}
-				</div>
+			</div>
 			</div>
 
 			<footer className="model-card__footer">
