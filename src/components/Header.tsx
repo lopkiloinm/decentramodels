@@ -94,55 +94,78 @@ export const Header: React.FC<HeaderProps> = ({ platform, onPlatformChange, onSe
 									scrollbarColor: 'rgba(255, 255, 255, 0.2) transparent'
 								}}
 							>
-								<div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)', margin: '4px 12px' }}>BROWSE</div>
-								<div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, padding: '8px 12px 12px' }}>
-									{browseChips.map((chip) => (
-										<button
-											key={chip.label}
-											className="btn btn--secondary btn--sm"
-											title={chip.tooltip}
-											onClick={() => {
-												onQuickFilterChange(chip.value);
-												setOpen(false);
-											}}
-										>
-											{chip.label}
-										</button>
-									))}
-								</div>
-
-								<div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)', margin: '4px 12px' }}>MODALITY</div>
+								{/* NEW CATEGORIES LAYOUT */}
 								<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, padding: '8px 12px 12px' }}>
-									{modalities.map((m) => (
-										<button
-											key={m.label}
-											className="btn btn--outline btn--full-width"
-											onClick={() => {
-												onQuickFilterChange({ modality: m.value });
-												setOpen(false);
-											}}
-										>
-											{m.label}
-										</button>
-									))}
-								</div>
+									{/* CREATE IMAGES */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12, display: 'grid', gap: 6 }}>
+										<div style={{ fontWeight: 700 }}>CREATE IMAGES</div>
+										<button className="btn btn--outline btn--full-width" onClick={() => { onQuickFilterChange({ modality: 'text-to-image' }); setOpen(false); }}>📝 Text → Image</button>
+										<div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>385 models</div>
+									</div>
 
-								<div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)', margin: '4px 12px' }}>TRAINING</div>
-								<div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, padding: '8px 12px 12px' }}>
-									{trainingChips.map((chip) => (
-										<button
-											key={chip.label}
-											className="btn btn--secondary btn--sm"
-											title={chip.tooltip}
-											onClick={() => {
-												onQuickFilterChange(chip.value);
-												setOpen(false);
-											}}
-										>
-											{chip.label}
-										</button>
-									))}
+									{/* ENHANCE IMAGES */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12, display: 'grid', gap: 6 }}>
+										<div style={{ fontWeight: 700 }}>ENHANCE IMAGES</div>
+										<button className="btn btn--outline btn--full-width" onClick={() => { onQuickFilterChange({ modality: 'image-to-image' }); setOpen(false); }}>🖼️ Image → Image</button>
+										<div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>127 models</div>
+									</div>
+
+									{/* CREATE VIDEOS */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12 }}>
+										<div style={{ fontWeight: 700, marginBottom: 8 }}>CREATE VIDEOS</div>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'text-to-video' }); setOpen(false); }}>📝 Text → Video</button>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'image-to-video' }); setOpen(false); }}>🖼️ Image → Video</button>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'audio-to-video' }); setOpen(false); }}>🎵 Audio → Video</button>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'video-to-video' }); setOpen(false); }}>🎬 Video → Video</button>
+										<div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>89 models total</div>
+									</div>
+
+									{/* PROCESS DATA */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12, display: 'grid', gap: 6 }}>
+										<div style={{ fontWeight: 700 }}>PROCESS DATA</div>
+										<button className="btn btn--outline btn--full-width" onClick={() => { onQuickFilterChange({ modality: 'image-to-json' }); setOpen(false); }}>🖼️ Image → JSON</button>
+										<div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>45 models</div>
+									</div>
+
+									{/* CREATE AUDIO */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12 }}>
+										<div style={{ fontWeight: 700, marginBottom: 8 }}>CREATE AUDIO</div>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'text-to-audio' }); setOpen(false); }}>📝 Text → Audio</button>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'text-to-speech' }); setOpen(false); }}>📝 Text → Speech</button>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'speech-to-text' }); setOpen(false); }}>🎤 Speech → Text</button>
+										<button className="btn btn--outline btn--sm" style={{ width: '100%', marginBottom: 6 }} onClick={() => { onQuickFilterChange({ modality: 'audio-to-audio' }); setOpen(false); }}>🎵 Audio → Audio</button>
+										<div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>156 models total</div>
+									</div>
+
+									{/* BUILD WITH AI */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12, display: 'grid', gap: 6 }}>
+										<div style={{ fontWeight: 700 }}>BUILD WITH AI</div>
+										<button className="btn btn--outline btn--full-width" onClick={() => { onQuickFilterChange({ modality: 'large-language-models' }); setOpen(false); }}>🧠 Large Language Models</button>
+										<div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>67 models</div>
+									</div>
+
+									{/* CREATE 3D */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12, display: 'grid', gap: 6 }}>
+										<div style={{ fontWeight: 700 }}>CREATE 3D</div>
+										<button className="btn btn--outline btn--full-width" onClick={() => { onQuickFilterChange({ modality: 'image-to-3d' }); setOpen(false); }}>🖼️ Image → 3D</button>
+										<div style={{ fontSize: 12, color: 'var(--color-text-secondary)' }}>23 models</div>
+									</div>
+
+									{/* TRAIN & CUSTOMIZE */}
+									<div className="browse-card" style={{ border: '1px solid var(--color-border)', borderRadius: 8, padding: 12 }}>
+										<div style={{ fontWeight: 700, marginBottom: 8 }}>TRAIN & CUSTOMIZE</div>
+										<div style={{ display: 'grid', gap: 6 }}>
+											<button className="btn btn--outline btn--sm" onClick={() => { onQuickFilterChange({ category: 'checkpoint', modality: 'training' as Modality }); setOpen(false); }}>🏗️ Checkpoints</button>
+											<button className="btn btn--outline btn--sm" onClick={() => { onQuickFilterChange({ category: 'lora', modality: 'training' as Modality }); setOpen(false); }}>📦 LoRAs (234)</button>
+											<button className="btn btn--outline btn--sm" onClick={() => { onQuickFilterChange({ category: 'embedding', modality: 'training' as Modality }); setOpen(false); }}>🎯 Embeddings</button>
+											<button className="btn btn--outline btn--sm" onClick={() => { onQuickFilterChange({ modality: 'training' as Modality }); setOpen(false); }}>🔧 Training Tools</button>
+										</div>
+									</div>
 								</div>
+								{/* END NEW CATEGORIES LAYOUT */}
+
+								{/* Removed old MODALITY and TRAINING blocks */}
+								{/* ... existing code ... */}
 							</div>
 						)}
 					</div>
