@@ -151,8 +151,8 @@ const parseDownloads = (downloads: string): { downloads: string; popularity_scor
 
 // Map platform to source
 const mapPlatformToSource = (platform: string): 'lab' | 'community' => {
-	const labPlatforms = ['Stability AI', 'Black Forest Labs', 'Tencent', 'Google', 'Fal.ai'];
-	return labPlatforms.some(lab => platform.includes(lab)) ? 'lab' : 'community';
+	// On DecentraModels, everything is community/open-source
+	return 'community';
 };
 
 // Map base to architecture

@@ -25,7 +25,11 @@ const SECTIONS: ModelSection[] = [
 		title: 'Trending This Week',
 		icon: '🔥',
 		description: 'Most popular models with fastest growth',
-		filter: (model) => (model.trending_score || 0) > 50,
+		filter: (model) => {
+			// Exclude training models
+			if (model.category?.toLowerCase() === 'training') return false;
+			return (model.trending_score || 0) > 50;
+		},
 		sort: (a, b) => (b.trending_score || 0) - (a.trending_score || 0),
 		initialCount: 6
 	},
@@ -35,6 +39,9 @@ const SECTIONS: ModelSection[] = [
 		icon: '🏢',
 		description: 'Official releases from research labs and companies',
 		filter: (model) => {
+			// Exclude training models - they belong in the training section
+			if (model.category?.toLowerCase() === 'training') return false;
+			
 			const labPlatforms = ['Stability AI', 'Black Forest Labs', 'Tencent', 'Google', 'OpenAI', 'Anthropic'];
 			return labPlatforms.some(lab => model.platform.includes(lab)) || 
 				   model.platform.toLowerCase() === 'lab' ||
@@ -55,6 +62,9 @@ const SECTIONS: ModelSection[] = [
 		icon: '🎨',
 		description: 'Best checkpoints created by the community',
 		filter: (model) => {
+			// Exclude training models
+			if (model.category?.toLowerCase() === 'training') return false;
+			
 			const labPlatforms = ['Stability AI', 'Black Forest Labs', 'Tencent', 'Google', 'OpenAI', 'Anthropic'];
 			const isNotLab = !labPlatforms.some(lab => model.platform.includes(lab));
 			return isNotLab && (
@@ -95,20 +105,22 @@ const SECTIONS: ModelSection[] = [
 ];
 
 export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, search }) => {
-	const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({
-		trending: false,
-		lab: false,
-		community: false,
-		'style-loras': false,
-		'character-loras': false
+	const MODELS_PER_PAGE = 6;
+	
+	const [currentPages, setCurrentPages] = React.useState<Record<string, number>>({
+		trending: 1,
+		lab: 1,
+		community: 1,
+		'style-loras': 1,
+		'character-loras': 1
 	});
-
-	const [visibleCounts, setVisibleCounts] = React.useState<Record<string, number>>({
-		trending: SECTIONS[0].initialCount,
-		lab: SECTIONS[1].initialCount,
-		community: SECTIONS[2].initialCount,
-		'style-loras': SECTIONS[3].initialCount,
-		'character-loras': SECTIONS[4].initialCount
+	
+	const [pageInputs, setPageInputs] = React.useState<Record<string, string>>({
+		trending: '1',
+		lab: '1',
+		community: '1',
+		'style-loras': '1',
+		'character-loras': '1'
 	});
 
 	const [selectedModel, setSelectedModel] = React.useState<ModelInfo | null>(null);
@@ -150,21 +162,70 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 		return result;
 	}, [filteredModels]);
 
-	const handleShowMore = (sectionId: string) => {
-		setVisibleCounts(prev => ({
+	const handlePageChange = (sectionId: string, page: number) => {
+		setCurrentPages(prev => ({
 			...prev,
-			[sectionId]: prev[sectionId] + 12
+			[sectionId]: page
+		}));
+		setPageInputs(prev => ({
+			...prev,
+			[sectionId]: page.toString()
 		}));
 	};
-
-	const handleShowLess = (sectionId: string) => {
-		const section = SECTIONS.find(s => s.id === sectionId);
-		if (section) {
-			setVisibleCounts(prev => ({
+	
+	const handlePageInputChange = (sectionId: string, value: string) => {
+		// Only allow digits
+		if (/^\d*$/.test(value)) {
+			setPageInputs(prev => ({
 				...prev,
-				[sectionId]: section.initialCount
+				[sectionId]: value
 			}));
 		}
+	};
+	
+	const handlePageInputSubmit = (sectionId: string, totalPages: number) => {
+		const pageNum = parseInt(pageInputs[sectionId], 10);
+		if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
+			handlePageChange(sectionId, pageNum);
+		} else {
+			// Reset to current page if invalid
+			setPageInputs(prev => ({
+				...prev,
+				[sectionId]: currentPages[sectionId].toString()
+			}));
+		}
+	};
+
+	const generatePaginationItems = (currentPage: number, totalPages: number): (number | string)[] => {
+		const items: (number | string)[] = [];
+		
+		if (totalPages <= 7) {
+			// Show all pages if 7 or fewer
+			for (let i = 1; i <= totalPages; i++) {
+				items.push(i);
+			}
+		} else {
+			// Always show first page
+			items.push(1);
+			
+			if (currentPage > 3) {
+				items.push('...');
+			}
+			
+			// Show pages around current page
+			for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+				items.push(i);
+			}
+			
+			if (currentPage < totalPages - 2) {
+				items.push('...');
+			}
+			
+			// Always show last page
+			items.push(totalPages);
+		}
+		
+		return items;
 	};
 
 	function onAction(model: ModelInfo) {
@@ -195,9 +256,11 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 
 					{SECTIONS.map(section => {
 						const sectionModels = categorizedModels[section.id] || [];
-						const visibleModels = sectionModels.slice(0, visibleCounts[section.id]);
-						const hasMore = sectionModels.length > visibleCounts[section.id];
-						const isExpanded = visibleCounts[section.id] > section.initialCount;
+						const currentPage = currentPages[section.id];
+						const totalPages = Math.ceil(sectionModels.length / MODELS_PER_PAGE);
+						const startIndex = (currentPage - 1) * MODELS_PER_PAGE;
+						const endIndex = startIndex + MODELS_PER_PAGE;
+						const visibleModels = sectionModels.slice(startIndex, endIndex);
 
 						if (sectionModels.length === 0) return null;
 
@@ -222,24 +285,57 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 									))}
 								</div>
 
-								{(hasMore || isExpanded) && (
-									<div className="section-actions">
-										{hasMore && (
-											<button 
-												className="btn btn--outline"
-												onClick={() => handleShowMore(section.id)}
-											>
-												Show More ({sectionModels.length - visibleCounts[section.id]} more)
-											</button>
-										)}
-										{isExpanded && (
-											<button 
-												className="btn btn--text"
-												onClick={() => handleShowLess(section.id)}
-											>
-												Show Less
-											</button>
-										)}
+								{totalPages > 1 && (
+									<div className="pagination">
+										<button 
+											className="pagination__btn pagination__btn--prev"
+											onClick={() => handlePageChange(section.id, currentPage - 1)}
+											disabled={currentPage === 1}
+										>
+											←
+										</button>
+										
+										<div className="pagination__items">
+											{generatePaginationItems(currentPage, totalPages).map((item, idx) => (
+												<React.Fragment key={idx}>
+													{item === '...' ? (
+														<span className="pagination__ellipsis">...</span>
+													) : (
+														<button
+															className={`pagination__btn ${currentPage === item ? 'pagination__btn--active' : ''}`}
+															onClick={() => handlePageChange(section.id, item as number)}
+														>
+															{item}
+														</button>
+													)}
+												</React.Fragment>
+											))}
+										</div>
+										
+										<button 
+											className="pagination__btn pagination__btn--next"
+											onClick={() => handlePageChange(section.id, currentPage + 1)}
+											disabled={currentPage === totalPages}
+										>
+											→
+										</button>
+										
+										<div className="pagination__input-group">
+											<span className="pagination__label">Page</span>
+											<input
+												type="text"
+												className="pagination__input"
+												value={pageInputs[section.id]}
+												onChange={(e) => handlePageInputChange(section.id, e.target.value)}
+												onKeyPress={(e) => {
+													if (e.key === 'Enter') {
+														handlePageInputSubmit(section.id, totalPages);
+													}
+												}}
+												onBlur={() => handlePageInputSubmit(section.id, totalPages)}
+											/>
+											<span className="pagination__label">of {totalPages}</span>
+										</div>
 									</div>
 								)}
 							</div>
