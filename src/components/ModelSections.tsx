@@ -338,7 +338,10 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 	}
 
 	const handleOptimizationConfirm = (options: any) => {
-		alert(`Starting ${selectedModel?.name} with optimization settings:\nQuantization: ${options.quantization}\nOptimization: ${options.optimization}`);
+		if (!selectedModel) return;
+		// Navigate to run form overlay with defaults derived from model + options
+		const params = new URLSearchParams({ name: selectedModel.name, defaults: JSON.stringify(options) });
+		window.location.href = `/run?${params.toString()}`;
 		setSelectedModel(null);
 	};
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import type { PlatformSlug, FiltersState, Modality } from '../types';
 
 interface HeaderProps {
@@ -58,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ platform, onPlatformChange, onSe
 			<div className="container">
 				<div className="header__content">
 					<div className="header__logo">
-						<h2>DecentraModels</h2>
+						<h2><Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>DecentraModels</Link></h2>
 					</div>
 
 					<div className="header__search" ref={dropdownRef} style={{ maxWidth: 560, width: '100%' }}>
@@ -173,6 +174,53 @@ export const Header: React.FC<HeaderProps> = ({ platform, onPlatformChange, onSe
 					<div className="header__actions">
 						{/* Removed filter tabs per feedback */}
 						<button className="btn btn--primary">Sign In</button>
+					</div>
+				</div>
+
+				{/* Second row quick filters (moved outside header__content) */}
+				<div className="header__quick-row">
+					<div className="quick-filters">
+						<button className="quick-filter" onClick={() => onQuickFilterChange({ quality: 'new' })}>
+							<span className="filter-label">New This Week</span>
+						</button>
+						<button className="quick-filter" onClick={() => onQuickFilterChange({ quality: 'trending' })}>
+							<span className="filter-label">Trending</span>
+						</button>
+						<span className="quick-filter-separator" aria-hidden="true"></span>
+						<button className="quick-filter" onClick={() => onQuickFilterChange({ modality: 'text-to-image' as Modality })}>
+							<span className="filter-label">Image</span>
+						</button>
+						<button className="quick-filter" onClick={() => onQuickFilterChange({ modality: 'text-to-video' as Modality })}>
+							<span className="filter-label">Video</span>
+						</button>
+						<button className="quick-filter" onClick={() => onQuickFilterChange({ modality: 'audio-to-audio' as Modality })}>
+							<span className="filter-label">Audio</span>
+						</button>
+						<button className="quick-filter" onClick={() => onQuickFilterChange({ category: 'lora', modality: 'training' as Modality })}>
+							<span className="filter-label">LoRA</span>
+						</button>
+						{/* Franchise filters trigger search */}
+						<button className="quick-filter" onClick={() => onSearch('Blue Archive')}>
+							<span className="filter-label">Blue Archive</span>
+						</button>
+						<button className="quick-filter" onClick={() => onSearch('Genshin Impact')}>
+							<span className="filter-label">Genshin Impact</span>
+						</button>
+						<button className="quick-filter" onClick={() => onSearch('Hololive')}>
+							<span className="filter-label">Hololive</span>
+						</button>
+						<button className="quick-filter" onClick={() => onSearch('Zenless Zone Zero')}>
+							<span className="filter-label">Zenless Zone Zero</span>
+						</button>
+						<button className="quick-filter" onClick={() => onSearch('Honkai Star Rail')}>
+							<span className="filter-label">Honkai Star Rail</span>
+						</button>
+						<button className="quick-filter" onClick={() => onSearch('Wuthering Waves')}>
+							<span className="filter-label">Wuthering Waves</span>
+						</button>
+						<button className="quick-filter" onClick={() => onSearch('Arknights')}>
+							<span className="filter-label">Arknights</span>
+						</button>
 					</div>
 				</div>
 			</div>

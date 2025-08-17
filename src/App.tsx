@@ -1,12 +1,13 @@
 import React from 'react';
 import Header from './components/Header';
-import QuickAccessBar from './components/QuickAccessBar';
+// import QuickAccessBar from './components/QuickAccessBar';
 import ModelSections from './components/ModelSections';
 import ModelTrainers from './components/ModelTrainers';
 import AgentWorkflows from './components/AgentWorkflows';
 import Footer from './components/Footer';
 import type { FiltersState, PlatformSlug } from './types';
 import { loadModelsFromCSV } from './utils/modelLoader';
+import ModelRunForm from './components/ModelRunForm';
 
 const initialFilters: FiltersState = {
 	platform: 'all',
@@ -22,6 +23,28 @@ const App: React.FC = () => {
 	const [filters, setFilters] = React.useState<FiltersState>(initialFilters);
 	const [search, setSearch] = React.useState('');
 	const [allModels, setAllModels] = React.useState(loadModelsFromCSV.getInitialModels());
+	const [runForm, setRunForm] = React.useState<{ model: any; defaults: any } | null>(null);
+
+	// Listen for open-run-form
+	React.useEffect(() => {
+		const handler = (e: any) => {
+			const { model, options } = e.detail || {};
+			const defaults = {
+				prompt: '',
+				num_inference_steps: 30,
+				guidance_scale: 2.5,
+				run_images: 1,
+				enable_safety_checker: true,
+				output_format: 'png',
+				acceleration: 'none',
+				resolution_mode: 'match_input',
+				...options,
+			};
+			setRunForm({ model, defaults });
+		};
+		window.addEventListener('open-run-form' as any, handler);
+		return () => window.removeEventListener('open-run-form' as any, handler);
+	}, []);
 
 	// Load models from CSV files
 	React.useEffect(() => {
@@ -36,35 +59,6 @@ const App: React.FC = () => {
 		setFilters((prev) => ({ ...prev, ...partial }));
 	}
 
-	function handleQuickAction(action: string) {
-		const modelSection = document.getElementById('models');
-		
-		switch (action) {
-			case 'all':
-				setFilters(initialFilters);
-				setSearch('');
-				break;
-			case 'new':
-				changeFilters({ quality: 'new' });
-				break;
-			case 'trending':
-				// Scroll to trending section if exists
-				break;
-			case 'image':
-				changeFilters({ modality: 'text-to-image' });
-				break;
-			case 'video':
-				changeFilters({ modality: 'text-to-video' });
-				break;
-			case 'lora':
-				changeFilters({ category: 'lora' });
-				break;
-		}
-		
-		// Scroll to models after filter change
-		modelSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-	}
-
 	return (
 		<main className="main">
 			<Header
@@ -74,7 +68,7 @@ const App: React.FC = () => {
 				onQuickFilterChange={changeFilters}
 			/>
 			
-			<QuickAccessBar onQuickAction={handleQuickAction} />
+			{/* QuickAccessBar removed; quick filters moved into Header */}
 			
 			<ModelSections 
 				models={allModels}
@@ -99,6 +93,18 @@ const App: React.FC = () => {
 			<AgentWorkflows />
 			
 			<Footer />
+
+			{runForm && (
+				<ModelRunForm
+					model={runForm.model}
+					defaults={runForm.defaults}
+					onBack={() => setRunForm(null)}
+					onSubmit={(payload) => {
+						console.log('Run payload', payload);
+						setRunForm(null);
+					}}
+				/>
+			)}
 		</main>
 	);
 };
