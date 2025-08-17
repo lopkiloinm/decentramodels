@@ -2,4 +2,111 @@
 
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+/* Training Hub Styles */
+.training-hub {
+  padding: var(--space-32) 0;
+  background: var(--color-background);
+}
+
+.training-hub h2 {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.training-categories {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-32);
+  margin-bottom: var(--space-32);
+}
+
+.training-section {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-24);
+  border: 1px solid var(--color-card-border);
+}
+
+.training-section h3 {
+  margin-bottom: var(--space-8);
+  color: var(--color-primary);
+}
+
+.section-description {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-20);
+  font-size: var(--font-size-sm);
+}
+
+.training-card {
+  background: var(--color-background);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-16);
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.training-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.training-card h4 {
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+}
+
+.training-card p {
+  margin-bottom: var(--space-12);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+}
+
+.training-card__meta {
+  display: flex;
+  gap: var(--space-16);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.training-resources {
+  background: var(--color-bg-3);
+  border-radius: var(--radius-lg);
+  padding: var(--space-32);
+  text-align: center;
+}
+
+.training-resources h3 {
+  margin-bottom: var(--space-24);
+}
+
+.resource-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-20);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.resource-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-base);
+  padding: var(--space-20);
+  text-align: left;
+}
+
+.resource-card h4 {
+  margin-bottom: var(--space-8);
+  font-size: var(--font-size-lg);
+}
+
+.resource-card p {
+  margin-bottom: var(--space-16);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+} 

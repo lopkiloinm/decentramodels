@@ -1,5 +1,28 @@
 export type PlatformSlug = 'all' | 'community' | 'hosted';
 
+export type Modality =
+	| 'text-to-image'
+	| 'image-to-image'
+	| 'text-to-video'
+	| 'image-to-video'
+	| 'audio-to-video'
+	| 'audio-to-audio'
+	| 'speech-to-text'
+	| 'text-to-audio'
+	| 'text-to-speech'
+	| 'video-to-video'
+	| 'image-to-3d'
+	| 'image-to-json'
+	| 'json'
+	| 'large-language-models'
+	| 'training'
+	| 'vision'
+	| 'lora'
+	| 'embedding'
+	| 'vae'
+	| 'text/image-to-video'
+	| string;
+
 export interface ModelInfo {
 	name: string;
 	platform: string;
@@ -14,6 +37,11 @@ export interface ModelInfo {
 	style: 'anime' | 'realistic' | 'artistic' | 'abstract' | string;
 	usecase: 'character' | 'landscape' | 'concept' | 'portrait' | string;
 	quality: 'production' | 'standard' | 'fast' | 'experimental' | string;
+	modality: Modality;
+	// Metadata for browse chips
+	created_at?: string; // ISO date string
+	trending_score?: number; // Week-over-week growth percentage
+	popularity_score?: number; // Combined downloads + ratings metric
 }
 
 export interface FiltersState {
@@ -22,4 +50,6 @@ export interface FiltersState {
 	style: string;
 	usecase: string;
 	quality: string;
+	modality?: Modality | '';
+	category?: string; // For filtering checkpoints, loras, embeddings
 } 

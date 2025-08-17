@@ -8,7 +8,6 @@ interface ModelCardProps {
 }
 
 export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, onDetails }) => {
-	const platformClass = model.platform === 'Civitai' ? 'platform--civitai' : 'platform--fal';
 	const costInfo = model.api_cost || model.downloads;
 	const costLabel = model.api_cost ? 'API Cost' : 'Downloads';
 	const platformSlug = model.platform.toLowerCase().replace('.', '');
@@ -24,7 +23,7 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, onDetails
 		>
 			<div className="model-card__header">
 				<h3 className="model-card__title">{model.name}</h3>
-				<span className={`model-card__platform ${platformClass}`}>{model.platform}</span>
+				<span className={`model-card__platform`}>{model.platform}</span>
 			</div>
 			<div className="model-card__stats">
 				<span>⭐ {model.rating}</span>
@@ -40,7 +39,7 @@ export const ModelCard: React.FC<ModelCardProps> = ({ model, onAction, onDetails
 			</div>
 			<div className="model-card__actions">
 				<button className="btn btn--primary btn--sm" onClick={() => onAction(model)}>
-					{model.platform === 'Civitai' ? 'Download' : 'Use API'}
+					{model.api_cost ? 'Use API' : 'Download'}
 				</button>
 				<button className="btn btn--outline btn--sm" onClick={() => onDetails(model)}>
 					Details
