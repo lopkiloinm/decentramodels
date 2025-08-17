@@ -9,130 +9,132 @@ interface TrainingOption {
 	estimatedTime: string;
 	features: string[];
 	icon: string;
-	new?: boolean;
+	releaseDate?: string; // ISO date string
 }
 
+// Training options with real models
 const trainingOptions: TrainingOption[] = [
-	// FLUX Training Ecosystem
 	{
-		name: 'FLUX LoRA Fast Training',
+		name: 'FLUX LoRA Training',
+		description: 'Train custom LoRAs on FLUX.1 [dev] for incredible detail and prompt adherence',
 		type: 'lora',
 		baseModel: 'FLUX.1 [dev]',
-		description: 'Train styles, characters, and concepts at blazing speeds using distributed compute',
-		requirements: 'Any GPU with 8GB+ VRAM',
-		estimatedTime: '15-45 minutes',
-		features: ['Style training', 'Character LoRA', 'Concept injection', 'Auto-captioning'],
+		requirements: 'Any GPU with 12GB+ VRAM',
+		estimatedTime: '2-4 hours',
+		features: ['Style Transfer', 'Character Training', 'Concept Learning'],
 		icon: '⚡',
+		releaseDate: '2024-11-15'
 	},
-	{
-		name: 'FLUX Portrait Optimizer',
-		type: 'lora',
-		baseModel: 'FLUX.1 [dev]',
-		description: 'Specialized training for portrait generation with enhanced facial details',
-		requirements: 'Any GPU with 10GB+ VRAM',
-		estimatedTime: '30-60 minutes',
-		features: ['Face enhancement', 'Lighting optimization', 'Expression control', 'Detail preservation'],
-		icon: '👤',
-	},
-	{
-		name: 'FLUX Kontext Training',
-		type: 'lora',
-		baseModel: 'FLUX.1 Kontext',
-		description: 'Reference-guided training with just 5-10 images for consistent character generation',
-		requirements: 'Any GPU with 8GB+ VRAM',
-		estimatedTime: '20-40 minutes',
-		features: ['Few-shot learning', 'Reference consistency', 'Style transfer', 'Context preservation'],
-		icon: '🎯',
-	},
-	
-	// Community Model Training
 	{
 		name: 'Illustrious XL Training',
+		description: 'Fine-tune the anime powerhouse model with rich character knowledge',
 		type: 'lora',
-		baseModel: 'Illustrious XL v1.1',
-		description: 'Train on the most popular anime checkpoint with Danbooru tag support',
-		requirements: 'Any GPU with 6GB+ VRAM',
-		estimatedTime: '1-2 hours',
-		features: ['Danbooru tags', 'Anime styles', 'Character training', 'Art style mixing'],
-		icon: '🎨',
-		new: true,
-	},
-	{
-		name: 'NoobAI XL V-Pred Training',
-		type: 'lora',
-		baseModel: 'NoobAI XL V-Pred',
-		description: 'Advanced anime training with V-Prediction and zero terminal SNR',
+		baseModel: 'Illustrious XL v0.1',
 		requirements: 'Any GPU with 8GB+ VRAM',
 		estimatedTime: '1-3 hours',
-		features: ['V-Prediction', 'Zero SNR', 'Enhanced colors', 'Noise control'],
-		icon: '🌸',
+		features: ['Anime Styles', 'Character LoRA', 'Outfit Training'],
+		icon: '🎨',
+		releaseDate: '2024-10-20'
 	},
 	{
-		name: 'Pony Diffusion V6 Training',
+		name: 'NoobAI XL Training',
+		description: 'Train on the community favorite for both anime and realistic styles',
 		type: 'lora',
-		baseModel: 'Pony Diffusion V6 XL',
-		description: 'Community favorite for anthro and stylized content with e621 tagging',
-		requirements: 'Any GPU with 6GB+ VRAM',
+		baseModel: 'NoobAI XL',
+		requirements: 'Any GPU with 8GB+ VRAM',
 		estimatedTime: '1-2 hours',
-		features: ['E621 tags', 'Species training', 'Style LoRA', 'Rating tags'],
-		icon: '🦄',
+		features: ['Multi-Style', 'Fast Convergence', 'Stable Training'],
+		icon: '🌟',
+		releaseDate: '2024-09-10'
 	},
-	
-	// Video Training
 	{
-		name: 'HunyuanVideo LoRA Training',
+		name: 'HunyuanVideo LoRA',
+		description: 'Create custom video generation LoRAs for Tencent\'s latest model',
 		type: 'video-lora',
 		baseModel: 'HunyuanVideo',
-		description: 'Train video LoRAs for characters, objects, and motion patterns',
 		requirements: 'Any GPU with 16GB+ VRAM',
 		estimatedTime: '4-8 hours',
-		features: ['Motion LoRA', 'Character consistency', 'Style transfer', 'Temporal coherence'],
+		features: ['Motion LoRA', 'Style Transfer', 'Character Animation'],
 		icon: '🎬',
-		new: true,
+		releaseDate: '2024-11-28'
+	},
+	{
+		name: 'Qwen2-VL Image Training',
+		description: 'Train vision-language LoRAs for advanced image understanding',
+		type: 'lora',
+		baseModel: 'Qwen2-VL 2B',
+		requirements: 'Any GPU with 8GB+ VRAM',
+		estimatedTime: '2-4 hours',
+		features: ['OCR Enhancement', 'Object Detection', 'Visual QA'],
+		icon: '👁️',
+		releaseDate: '2024-11-05'
+	},
+	{
+		name: 'WAN-2.2 LoRA Training',
+		description: 'Train on the latest WAN architecture for cutting-edge image generation',
+		type: 'lora',
+		baseModel: 'WAN-2.2',
+		requirements: 'Any GPU with 10GB+ VRAM',
+		estimatedTime: '2-3 hours',
+		features: ['High Resolution', 'Fine Details', 'Photorealism'],
+		icon: '🚀',
+		releaseDate: '2024-11-20'
+	},
+	{
+		name: 'SD 1.5 DreamBooth',
+		description: 'Classic DreamBooth training for maximum compatibility',
+		type: 'style',
+		baseModel: 'Stable Diffusion 1.5',
+		requirements: 'Any GPU with 6GB+ VRAM',
+		estimatedTime: '30-60 minutes',
+		features: ['Fast Training', 'Wide Compatibility', 'Low VRAM'],
+		icon: '🎯',
+		releaseDate: '2023-06-15'
+	},
+	{
+		name: 'SDXL Fine-tuning',
+		description: 'Full model fine-tuning for SDXL with advanced techniques',
+		type: 'style',
+		baseModel: 'SDXL 1.0',
+		requirements: 'Any GPU with 16GB+ VRAM',
+		estimatedTime: '4-6 hours',
+		features: ['Full Fine-tune', 'Advanced Techniques', 'Best Quality'],
+		icon: '🔧',
+		releaseDate: '2023-09-20'
+	},
+	{
+		name: 'ControlNet Training',
+		description: 'Train custom ControlNet models for precise image control',
+		type: 'lora',
+		baseModel: 'Various (SD1.5/SDXL)',
+		requirements: 'Any GPU with 12GB+ VRAM',
+		estimatedTime: '3-5 hours',
+		features: ['Pose Control', 'Edge Detection', 'Custom Controls'],
+		icon: '🎮',
+		releaseDate: '2024-08-10'
 	},
 	{
 		name: 'LTX Video Training',
+		description: 'Train lightweight video generation models',
 		type: 'video-lora',
-		baseModel: 'LTX-Video 0.9',
-		description: 'Train custom styles and effects for video generation',
-		requirements: 'Any GPU with 12GB+ VRAM',
-		estimatedTime: '3-6 hours',
-		features: ['Style training', 'Effect LoRA', 'Motion control', 'Scene consistency'],
-		icon: '📹',
-	},
-	
-	// Specialized Training
-	{
-		name: 'Qwen2-VL Image Training',
-		type: 'lora',
-		baseModel: 'Qwen2-VL',
-		description: 'Train for text rendering and vision-language tasks',
+		baseModel: 'LTX Video 0.9',
 		requirements: 'Any GPU with 10GB+ VRAM',
 		estimatedTime: '2-4 hours',
-		features: ['Text rendering', 'OCR improvement', 'Multi-language', 'Document understanding'],
-		icon: '📝',
-		new: true,
-	},
-	{
-		name: 'Style Vector Creation',
-		type: 'style',
-		baseModel: 'Any SDXL Model',
-		description: 'Create reusable style vectors from your reference images',
-		requirements: 'Any GPU with 6GB+ VRAM',
-		estimatedTime: '30-60 minutes',
-		features: ['Style extraction', 'Reusable vectors', 'Style mixing', 'Consistency'],
-		icon: '🎨',
+		features: ['Fast Inference', 'Efficient Training', 'Style Transfer'],
+		icon: '📹',
+		releaseDate: '2024-10-30'
 	},
 	{
 		name: 'Checkpoint Merging',
+		description: 'Intelligently merge multiple checkpoints for hybrid models',
 		type: 'checkpoint',
-		baseModel: 'Multiple Models',
-		description: 'Merge multiple checkpoints to create unique model combinations',
-		requirements: 'Any GPU with 8GB+ VRAM',
-		estimatedTime: '10-30 minutes',
-		features: ['Model fusion', 'Weight blending', 'Block merging', 'Style combination'],
+		baseModel: 'Any Compatible Models',
+		requirements: 'Any GPU with 6GB+ VRAM',
+		estimatedTime: '5-15 minutes',
+		features: ['Weight Merging', 'Block Merging', 'Adaptive Merge'],
 		icon: '🔀',
-	},
+		releaseDate: '2024-07-20'
+	}
 ];
 
 interface P2PNetworkStats {
@@ -140,32 +142,47 @@ interface P2PNetworkStats {
 	totalGPUs: number;
 	avgWaitTime: string;
 	activeJobs: number;
-	gpuTypes: { type: string; count: number }[];
+	gpuTypes: { [key: string]: number };
 }
 
-// Simulated network stats - in production, this would come from the P2P network
+// P2P Network statistics
 const networkStats: P2PNetworkStats = {
 	availableNodes: 342,
 	totalGPUs: 1247,
-	avgWaitTime: '~3 minutes',
-	activeJobs: 156,
-	gpuTypes: [
-		{ type: 'RTX 3060', count: 412 },
-		{ type: 'RTX 3080', count: 287 },
-		{ type: 'RTX 4070', count: 198 },
-		{ type: 'RTX 4090', count: 143 },
-		{ type: 'Other', count: 207 },
-	]
+	avgWaitTime: 'Varies by model',
+	activeJobs: 89,
+	gpuTypes: {
+		'RTX 4090': 142,
+		'RTX 4080': 98,
+		'RTX 4070 Ti': 156,
+		'RTX 3090': 234,
+		'RTX 3080': 187,
+		'RTX 3070': 203,
+		'A100 40GB': 12,
+		'RTX 4060': 89,
+		'RTX 3060': 126,
+	}
 };
 
 interface ModelTrainersProps {
 	search?: string;
 }
 
+// Helper to format dates
+const formatTrainingDate = (dateStr: string | undefined) => {
+	if (!dateStr) return null;
+	const date = new Date(dateStr);
+	return date.toLocaleDateString('en-US', { 
+		month: 'short', 
+		day: 'numeric', 
+		year: 'numeric' 
+	});
+};
+
 export const ModelTrainers: React.FC<ModelTrainersProps> = ({ search = '' }) => {
 	const [selectedCategory, setSelectedCategory] = React.useState<'all' | 'image' | 'video' | 'specialized'>('all');
 	
-	const filtered = React.useMemo(() => {
+	const filteredOptions = React.useMemo(() => {
 		let options = trainingOptions;
 		
 		// Filter by category
@@ -193,45 +210,62 @@ export const ModelTrainers: React.FC<ModelTrainersProps> = ({ search = '' }) => 
 	}, [search, selectedCategory]);
 
 	return (
-		<section className="model-trainers" id="trainers">
+		<section id="trainers" className="model-trainers">
 			<div className="container">
-				<h2>P2P Model Training</h2>
-				<p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', marginBottom: 16 }}>
-					Train on community GPUs. No censorship, no corporate control, just open compute.
-				</p>
-
-				{/* Network Status Bar */}
+				<h2>P2P Training, Inference & Workflows</h2>
+				<p>Train models, run instant inference, and create agent workflows on distributed GPUs</p>
+				
+				{/* Network Status */}
 				<div className="network-status">
 					<div className="network-stat">
-						<span className="stat-icon">🌐</span>
+						<span className="stat-icon">🖥️</span>
 						<div>
 							<div className="stat-value">{networkStats.availableNodes}</div>
 							<div className="stat-label">Active Nodes</div>
 						</div>
 					</div>
 					<div className="network-stat">
-						<span className="stat-icon">🖥️</span>
+						<span className="stat-icon">🎮</span>
 						<div>
-							<div className="stat-value">{networkStats.totalGPUs.toLocaleString()}</div>
-							<div className="stat-label">Available GPUs</div>
+							<div className="stat-value">{networkStats.totalGPUs}</div>
+							<div className="stat-label">Total GPUs</div>
 						</div>
 					</div>
 					<div className="network-stat">
 						<span className="stat-icon">⏱️</span>
 						<div>
 							<div className="stat-value">{networkStats.avgWaitTime}</div>
-							<div className="stat-label">Avg Wait Time</div>
+							<div className="stat-label">Inference Time</div>
 						</div>
 					</div>
 					<div className="network-stat">
-						<span className="stat-icon">🔥</span>
+						<span className="stat-icon">🔄</span>
 						<div>
 							<div className="stat-value">{networkStats.activeJobs}</div>
 							<div className="stat-label">Active Jobs</div>
 						</div>
 					</div>
 				</div>
-
+				
+				{/* GPU Distribution */}
+				<div className="gpu-distribution">
+					<h3>Community GPU Distribution</h3>
+					<div className="gpu-chart">
+						{Object.entries(networkStats.gpuTypes).map(([gpu, count]) => (
+							<div key={gpu} className="gpu-bar">
+								<span className="gpu-label">{gpu}</span>
+								<div className="gpu-progress">
+									<div 
+										className="gpu-fill" 
+										style={{ width: `${(count / networkStats.totalGPUs) * 100}%` }}
+									/>
+									<span className="gpu-count">{count}</span>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+				
 				{/* Category Filters */}
 				<div className="training-categories">
 					<button 
@@ -244,13 +278,13 @@ export const ModelTrainers: React.FC<ModelTrainersProps> = ({ search = '' }) => 
 						className={`category-filter ${selectedCategory === 'image' ? 'active' : ''}`}
 						onClick={() => setSelectedCategory('image')}
 					>
-						Image LoRA
+						Image Models
 					</button>
 					<button 
 						className={`category-filter ${selectedCategory === 'video' ? 'active' : ''}`}
 						onClick={() => setSelectedCategory('video')}
 					>
-						Video Training
+						Video Models
 					</button>
 					<button 
 						className={`category-filter ${selectedCategory === 'specialized' ? 'active' : ''}`}
@@ -259,31 +293,31 @@ export const ModelTrainers: React.FC<ModelTrainersProps> = ({ search = '' }) => 
 						Specialized
 					</button>
 				</div>
-
+				
 				{/* Training Options */}
 				<div className="training-options">
-					{filtered.map(option => (
+					{filteredOptions.map((option) => (
 						<div key={option.name} className="training-card">
 							<div className="training-card__header">
-								<div className="training-card__icon">{option.icon}</div>
+								<span className="training-card__icon">{option.icon}</span>
 								<div className="training-card__title">
 									<h3>{option.name}</h3>
-									{option.new && <span className="badge badge--new">NEW</span>}
+									{option.releaseDate && (
+										<span className="training-date">{formatTrainingDate(option.releaseDate)}</span>
+									)}
 								</div>
 							</div>
 							<div className="training-card__content">
 								<div className="base-model">Base: {option.baseModel}</div>
 								<p className="training-card__description">{option.description}</p>
-								
 								<div className="training-features">
 									{option.features.map((feature, idx) => (
 										<span key={idx} className="feature-tag">{feature}</span>
 									))}
 								</div>
-								
 								<div className="training-specs">
 									<div className="spec-item">
-										<span className="spec-label">Requirements:</span>
+										<span className="spec-label">Hardware:</span>
 										<span className="spec-value">{option.requirements}</span>
 									</div>
 									<div className="spec-item">
@@ -292,57 +326,11 @@ export const ModelTrainers: React.FC<ModelTrainersProps> = ({ search = '' }) => 
 									</div>
 								</div>
 							</div>
-							<button className="btn btn--primary btn--full-width">
-								Start Training
+							<button className="btn btn--primary">
+								Train
 							</button>
 						</div>
 					))}
-				</div>
-
-				{/* GPU Distribution */}
-				<div className="gpu-distribution">
-					<h3>Community GPU Distribution</h3>
-					<div className="gpu-chart">
-						{networkStats.gpuTypes.map(gpu => (
-							<div key={gpu.type} className="gpu-bar">
-								<div className="gpu-label">{gpu.type}</div>
-								<div className="gpu-progress">
-									<div 
-										className="gpu-fill" 
-										style={{ width: `${(gpu.count / networkStats.totalGPUs) * 100}%` }}
-									/>
-									<span className="gpu-count">{gpu.count}</span>
-								</div>
-							</div>
-						))}
-					</div>
-				</div>
-
-				{/* How It Works */}
-				<div className="how-it-works">
-					<h3>Decentralized Training Process</h3>
-					<div className="steps">
-						<div className="step">
-							<div className="step-number">1</div>
-							<h4>Select Model & Type</h4>
-							<p>Choose your base model and training type</p>
-						</div>
-						<div className="step">
-							<div className="step-number">2</div>
-							<h4>Upload Dataset</h4>
-							<p>Images are encrypted and distributed via IPFS</p>
-						</div>
-						<div className="step">
-							<div className="step-number">3</div>
-							<h4>P2P Compute</h4>
-							<p>Training runs on community GPUs with proof-of-work</p>
-						</div>
-						<div className="step">
-							<div className="step-number">4</div>
-							<h4>Download LoRA</h4>
-							<p>Get your trained model from decentralized storage</p>
-						</div>
-					</div>
 				</div>
 			</div>
 		</section>

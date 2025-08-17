@@ -56,4 +56,10 @@ export interface FiltersState {
 	quality: string;
 	modality?: Modality | '';
 	category?: string; // For filtering checkpoints, loras, embeddings
+}
+
+export interface ModelCardProps {
+	model: ModelInfo;
+	onAction: (model: ModelInfo) => void;
+	compact?: boolean;
 } 

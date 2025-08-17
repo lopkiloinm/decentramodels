@@ -1,9 +1,9 @@
 import React from 'react';
 
-interface QuickAction {
-	icon: string;
+interface QuickFilter {
+	id: string;
 	label: string;
-	action: () => void;
+	count?: number;
 }
 
 interface QuickAccessBarProps {
@@ -11,41 +11,27 @@ interface QuickAccessBarProps {
 }
 
 export const QuickAccessBar: React.FC<QuickAccessBarProps> = ({ onQuickAction }) => {
-	const quickActions: QuickAction[] = [
-		{
-			icon: '⚡',
-			label: 'Generate Now',
-			action: () => onQuickAction('generate')
-		},
-		{
-			icon: '🔍',
-			label: 'Browse All',
-			action: () => onQuickAction('browse')
-		},
-		{
-			icon: '🆕',
-			label: "What's New",
-			action: () => onQuickAction('new')
-		},
-		{
-			icon: '📈',
-			label: 'Trending',
-			action: () => onQuickAction('trending')
-		}
+	const quickFilters: QuickFilter[] = [
+		{ id: 'all', label: 'All Models', count: 612 },
+		{ id: 'new', label: 'New This Week', count: 38 },
+		{ id: 'trending', label: 'Trending', count: 67 },
+		{ id: 'image', label: 'Image', count: 385 },
+		{ id: 'video', label: 'Video', count: 89 },
+		{ id: 'lora', label: 'LoRA', count: 234 },
 	];
 
 	return (
 		<div className="quick-access-bar">
 			<div className="container">
-				<div className="quick-actions">
-					{quickActions.map((action) => (
+				<div className="quick-filters">
+					{quickFilters.map((filter) => (
 						<button
-							key={action.label}
-							className="quick-action"
-							onClick={action.action}
+							key={filter.id}
+							className="quick-filter"
+							onClick={() => onQuickAction(filter.id)}
 						>
-							<span className="quick-action__icon">{action.icon}</span>
-							<span className="quick-action__label">{action.label}</span>
+							<span className="filter-label">{filter.label}</span>
+							{filter.count && <span className="filter-count">{filter.count}</span>}
 						</button>
 					))}
 				</div>

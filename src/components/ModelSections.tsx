@@ -1,5 +1,6 @@
 import React from 'react';
 import { ModelCard } from './ModelCard';
+import { ModelOptimizer } from './ModelOptimizer';
 import type { FiltersState, ModelInfo } from '../types';
 
 interface ModelSectionsProps {
@@ -52,19 +53,48 @@ const SECTIONS: ModelSection[] = [
 		id: 'community',
 		title: 'Community Checkpoints',
 		icon: '🎨',
-		description: 'Best models created by the community',
+		description: 'Best checkpoints created by the community',
 		filter: (model) => {
 			const labPlatforms = ['Stability AI', 'Black Forest Labs', 'Tencent', 'Google', 'OpenAI', 'Anthropic'];
 			const isNotLab = !labPlatforms.some(lab => model.platform.includes(lab));
 			return isNotLab && (
-				model.platform.toLowerCase().includes('community') ||
+				model.category?.toLowerCase() === 'checkpoint' ||
+				(model.platform.toLowerCase().includes('community') ||
 				model.platform.toLowerCase().includes('civitai') ||
-				model.platform.toLowerCase().includes('huggingface') ||
-				model.source === 'community'
+				model.platform.toLowerCase().includes('huggingface')) &&
+				model.category?.toLowerCase() !== 'lora'
 			);
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
 		initialCount: 12
+	},
+	{
+		id: 'style-loras',
+		title: 'Style LoRAs',
+		icon: '🎨',
+		description: 'Best style LoRAs for artistic control',
+		filter: (model) => {
+			return model.category?.toLowerCase() === 'lora' && 
+				   (model.specialty?.toLowerCase().includes('style') ||
+				    model.name.toLowerCase().includes('style') ||
+				    model.style !== 'realistic');
+		},
+		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
+		initialCount: 8
+	},
+	{
+		id: 'character-loras',
+		title: 'Character LoRAs',
+		icon: '👤',
+		description: 'Best character LoRAs for consistent generation',
+		filter: (model) => {
+			return model.category?.toLowerCase() === 'lora' && 
+				   (model.specialty?.toLowerCase().includes('character') ||
+				    model.name.toLowerCase().includes('character') ||
+				    model.usecase === 'character');
+		},
+		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
+		initialCount: 8
 	}
 ];
 
@@ -72,14 +102,20 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 	const [expandedSections, setExpandedSections] = React.useState<Record<string, boolean>>({
 		trending: false,
 		lab: false,
-		community: false
+		community: false,
+		'style-loras': false,
+		'character-loras': false
 	});
 
 	const [visibleCounts, setVisibleCounts] = React.useState<Record<string, number>>({
 		trending: SECTIONS[0].initialCount,
 		lab: SECTIONS[1].initialCount,
-		community: SECTIONS[2].initialCount
+		community: SECTIONS[2].initialCount,
+		'style-loras': SECTIONS[3].initialCount,
+		'character-loras': SECTIONS[4].initialCount
 	});
+
+	const [selectedModel, setSelectedModel] = React.useState<ModelInfo | null>(null);
 
 	// Filter models based on search and filters
 	const filteredModels = React.useMemo(() => {
@@ -136,90 +172,106 @@ export const ModelSections: React.FC<ModelSectionsProps> = ({ models, filters, s
 	};
 
 	function onAction(model: ModelInfo) {
-		alert(`Opening ${model.name}. In a production app, this would start generation or download.`);
+		setSelectedModel(model);
 	}
 
-	function onDetails(model: ModelInfo) {
-		alert(
-			`Model Details:\n\nName: ${model.name}\nPlatform: ${model.platform}\nBase: ${model.base}\nRating: ${model.rating.toFixed(1)}★\nSpecialty: ${model.specialty}\nHardware: ${model.hardware}\nModality: ${model.modality}\n\nIn a real app, this would open a detailed model page.`
-		);
-	}
+	const handleOptimizationConfirm = (options: any) => {
+		alert(`Starting ${selectedModel?.name} with optimization settings:\nQuantization: ${options.quantization}\nOptimization: ${options.optimization}`);
+		setSelectedModel(null);
+	};
+
+	const handleOptimizationCancel = () => {
+		setSelectedModel(null);
+	};
+
+	const noResultsMessage = search
+		? `No models found matching "${search}"`
+		: 'No models found with current filters';
 
 	return (
-		<section className="model-sections" id="models">
-			<div className="container">
-				<h2>AI Models</h2>
-				<p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', marginBottom: 48 }}>
-					Explore and download state-of-the-art AI models from labs and the community
-				</p>
+		<>
+			<section className="model-sections" id="models">
+				<div className="container">
+					<h2>AI Models</h2>
+					<p style={{ textAlign: 'center', color: 'var(--color-text-secondary)', marginBottom: 48 }}>
+						Explore and download state-of-the-art AI models from labs and the community
+					</p>
 
-				{SECTIONS.map(section => {
-					const sectionModels = categorizedModels[section.id] || [];
-					const visibleModels = sectionModels.slice(0, visibleCounts[section.id]);
-					const hasMore = sectionModels.length > visibleCounts[section.id];
-					const isExpanded = visibleCounts[section.id] > section.initialCount;
+					{SECTIONS.map(section => {
+						const sectionModels = categorizedModels[section.id] || [];
+						const visibleModels = sectionModels.slice(0, visibleCounts[section.id]);
+						const hasMore = sectionModels.length > visibleCounts[section.id];
+						const isExpanded = visibleCounts[section.id] > section.initialCount;
 
-					if (sectionModels.length === 0) return null;
+						if (sectionModels.length === 0) return null;
 
-					return (
-						<div key={section.id} className="model-section">
-							<div className="section-header">
-								<h3>
-									<span className="section-icon">{section.icon}</span>
-									{section.title}
-								</h3>
-								<p className="section-description">{section.description}</p>
-							</div>
-
-							<div className="model-grid model-grid--compact">
-								{visibleModels.map(model => (
-									<ModelCard 
-										key={`${section.id}-${model.name}`}
-										model={model} 
-										onAction={onAction} 
-										onDetails={onDetails}
-										compact={true}
-									/>
-								))}
-							</div>
-
-							{(hasMore || isExpanded) && (
-								<div className="section-actions">
-									{hasMore && (
-										<button 
-											className="btn btn--outline"
-											onClick={() => handleShowMore(section.id)}
-										>
-											Show More ({sectionModels.length - visibleCounts[section.id]} more)
-										</button>
-									)}
-									{isExpanded && (
-										<button 
-											className="btn btn--text"
-											onClick={() => handleShowLess(section.id)}
-										>
-											Show Less
-										</button>
-									)}
+						return (
+							<div key={section.id} className="model-section">
+								<div className="section-header">
+									<h3>
+										<span className="section-icon">{section.icon}</span>
+										{section.title}
+									</h3>
+									<p className="section-description">{section.description}</p>
 								</div>
-							)}
-						</div>
-					);
-				})}
 
-				{Object.values(categorizedModels).every(models => models.length === 0) && (
-					<div className="no-results">
-						<p>No models found matching your criteria.</p>
-						<button 
-							className="btn btn--primary"
-							onClick={() => window.location.reload()}
-						>
-							Reset Filters
-						</button>
-					</div>
-				)}
-			</div>
-		</section>
+								<div className="model-grid model-grid--compact">
+									{visibleModels.map(model => (
+										<ModelCard 
+											key={`${section.id}-${model.name}`}
+											model={model} 
+											onAction={onAction} 
+											compact={true}
+										/>
+									))}
+								</div>
+
+								{(hasMore || isExpanded) && (
+									<div className="section-actions">
+										{hasMore && (
+											<button 
+												className="btn btn--outline"
+												onClick={() => handleShowMore(section.id)}
+											>
+												Show More ({sectionModels.length - visibleCounts[section.id]} more)
+											</button>
+										)}
+										{isExpanded && (
+											<button 
+												className="btn btn--text"
+												onClick={() => handleShowLess(section.id)}
+											>
+												Show Less
+											</button>
+										)}
+									</div>
+								)}
+							</div>
+						);
+					})}
+
+					{Object.values(categorizedModels).every(models => models.length === 0) && (
+						<div className="no-results">
+							<p>No models found matching your criteria.</p>
+							<button 
+								className="btn btn--primary"
+								onClick={() => window.location.reload()}
+							>
+								Reset Filters
+							</button>
+						</div>
+					)}
+				</div>
+			</section>
+			
+			{selectedModel && (
+				<ModelOptimizer
+					model={selectedModel}
+					onConfirm={handleOptimizationConfirm}
+					onCancel={handleOptimizationCancel}
+				/>
+			)}
+		</>
 	);
 };
 

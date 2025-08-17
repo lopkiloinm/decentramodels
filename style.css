@@ -422,6 +422,7 @@ pre code {
   background: var(--color-primary-hover);
   border-color: var(--color-primary-hover);
   transform: translateY(-1px);
+  filter: brightness(1.1);
 }
 
 .btn--primary:active {

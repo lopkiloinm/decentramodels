@@ -3,6 +3,8 @@ import Header from './components/Header';
 import QuickAccessBar from './components/QuickAccessBar';
 import ModelSections from './components/ModelSections';
 import ModelTrainers from './components/ModelTrainers';
+import AgentWorkflows from './components/AgentWorkflows';
+import MasterAgent from './components/MasterAgent';
 import Footer from './components/Footer';
 import type { FiltersState, PlatformSlug } from './types';
 import { loadModelsFromCSV } from './utils/modelLoader';
@@ -39,20 +41,29 @@ const App: React.FC = () => {
 		const modelSection = document.getElementById('models');
 		
 		switch (action) {
-			case 'generate':
-			case 'trending':
-				modelSection?.scrollIntoView({ behavior: 'smooth' });
-				break;
-			case 'browse':
+			case 'all':
 				setFilters(initialFilters);
 				setSearch('');
-				modelSection?.scrollIntoView({ behavior: 'smooth' });
 				break;
 			case 'new':
 				changeFilters({ quality: 'new' });
-				modelSection?.scrollIntoView({ behavior: 'smooth' });
+				break;
+			case 'trending':
+				// Scroll to trending section if exists
+				break;
+			case 'image':
+				changeFilters({ modality: 'text-to-image' });
+				break;
+			case 'video':
+				changeFilters({ modality: 'text-to-video' });
+				break;
+			case 'lora':
+				changeFilters({ category: 'lora' });
 				break;
 		}
+		
+		// Scroll to models after filter change
+		modelSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
 	return (
@@ -79,6 +90,22 @@ const App: React.FC = () => {
 			</div>
 			
 			<ModelTrainers search={search} />
+			
+			<div className="divider-section">
+				<div className="container">
+					<hr className="section-divider" />
+				</div>
+			</div>
+			
+			<AgentWorkflows />
+			
+			<div className="divider-section">
+				<div className="container">
+					<hr className="section-divider" />
+				</div>
+			</div>
+			
+			<MasterAgent />
 			
 			<Footer />
 		</main>
