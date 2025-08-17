@@ -345,7 +345,7 @@ html {
   justify-content: center;
 }
 
-.pagination__btn:hover:not(:disabled) {
+.pagination__btn:hover:not(:disabled):not(.pagination__btn--active) {
   border-color: var(--color-primary);
   color: var(--color-primary);
 }
@@ -362,9 +362,11 @@ html {
 }
 
 .pagination__btn--active:hover {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  background: var(--color-primary-dark, var(--color-primary));
+  border-color: var(--color-primary-dark, var(--color-primary));
   color: var(--color-background);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
 }
 
 .pagination__btn--prev,

@@ -42,10 +42,16 @@ const SECTIONS: ModelSection[] = [
 			// Exclude training models - they belong in the training section
 			if (model.category?.toLowerCase() === 'training') return false;
 			
-			const labPlatforms = ['Stability AI', 'Black Forest Labs', 'Tencent', 'Google', 'OpenAI', 'Anthropic'];
-			return labPlatforms.some(lab => model.platform.includes(lab)) || 
-				   model.platform.toLowerCase() === 'lab' ||
-				   model.source === 'lab';
+			// Identify foundation models by their creators or well-known model names
+			const labCreators = ['Black Forest Labs', 'Stability AI', 'OpenAI', 'Alibaba', 'RunwayML', 
+			                     'AuraFlow Team', 'LightricksAI', 'Google', 'Anthropic', 'Meta'];
+			const hasLabCreator = labCreators.some(lab => model.creator?.includes(lab));
+			
+			// Also include well-known foundation models by name
+			const foundationModels = ['FLUX', 'Stable Diffusion', 'Whisper', 'Qwen', 'AuraFlow', 'LTX Video'];
+			const isFoundationModel = foundationModels.some(name => model.name.includes(name));
+			
+			return hasLabCreator || isFoundationModel;
 		},
 		sort: (a, b) => {
 			// Sort by last updated, then by downloads
@@ -65,15 +71,18 @@ const SECTIONS: ModelSection[] = [
 			// Exclude training models
 			if (model.category?.toLowerCase() === 'training') return false;
 			
-			const labPlatforms = ['Stability AI', 'Black Forest Labs', 'Tencent', 'Google', 'OpenAI', 'Anthropic'];
-			const isNotLab = !labPlatforms.some(lab => model.platform.includes(lab));
-			return isNotLab && (
-				model.category?.toLowerCase() === 'checkpoint' ||
-				(model.platform.toLowerCase().includes('community') ||
-				model.platform.toLowerCase().includes('civitai') ||
-				model.platform.toLowerCase().includes('huggingface')) &&
-				model.category?.toLowerCase() !== 'lora'
-			);
+			// Exclude foundation models (they go in AI Lab Models)
+			const labCreators = ['Black Forest Labs', 'Stability AI', 'OpenAI', 'Alibaba', 'RunwayML', 
+			                     'AuraFlow Team', 'LightricksAI', 'Google', 'Anthropic', 'Meta'];
+			const hasLabCreator = labCreators.some(lab => model.creator?.includes(lab));
+			
+			const foundationModels = ['FLUX', 'Stable Diffusion', 'Whisper', 'Qwen', 'AuraFlow', 'LTX Video'];
+			const isFoundationModel = foundationModels.some(name => model.name.includes(name));
+			
+			// Include checkpoints that are NOT foundation models and NOT LoRAs
+			return !hasLabCreator && !isFoundationModel && 
+			       model.category?.toLowerCase() === 'checkpoint' &&
+			       model.category?.toLowerCase() !== 'lora';
 		},
 		sort: (a, b) => (b.popularity_score || 0) - (a.popularity_score || 0),
 		initialCount: 6
