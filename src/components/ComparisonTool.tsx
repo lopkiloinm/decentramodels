@@ -56,14 +56,14 @@ export const ComparisonTool: React.FC = () => {
 									<div className="comparison-cell">{b.platform}</div>
 								</div>
 								<div className="comparison-row">
-									<div className="comparison-cell">Base Architecture</div>
+									<div className="comparison-cell">Base</div>
 									<div className="comparison-cell">{a.base}</div>
 									<div className="comparison-cell">{b.base}</div>
 								</div>
 								<div className="comparison-row">
 									<div className="comparison-cell">Rating</div>
-									<div className="comparison-cell">⭐ {a.rating}</div>
-									<div className="comparison-cell">⭐ {b.rating}</div>
+									<div className="comparison-cell">⭐ {a.rating.toFixed(1)}</div>
+									<div className="comparison-cell">⭐ {b.rating.toFixed(1)}</div>
 								</div>
 								<div className="comparison-row">
 									<div className="comparison-cell">Specialty</div>

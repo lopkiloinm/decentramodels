@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
 						<ul>
 							<li><a href="#models">Models</a></li>
 							<li><a href="#generate">Generate</a></li>
-							<li><a href="#training">Training</a></li>
+							<li><a href="#trainers">Model Trainers</a></li>
 							<li><a href="#community">Community</a></li>
 						</ul>
 					</div>

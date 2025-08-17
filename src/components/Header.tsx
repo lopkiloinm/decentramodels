@@ -80,14 +80,18 @@ export const Header: React.FC<HeaderProps> = ({ platform, onPlatformChange, onSe
 
 						{open && (
 							<div
-								className="dropdown__content"
+								className="dropdown__content search-dropdown-scrollable"
 								style={{
 									width: '100%',
 									top: 'calc(100% + 8px)',
 									padding: 16,
 									opacity: 1,
 									visibility: 'visible',
-									transform: 'translateY(0)'
+									transform: 'translateY(0)',
+									maxHeight: '320px',
+									overflowY: 'auto',
+									scrollbarWidth: 'thin',
+									scrollbarColor: 'rgba(255, 255, 255, 0.2) transparent'
 								}}
 							>
 								<div style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-text-secondary)', margin: '4px 12px' }}>BROWSE</div>

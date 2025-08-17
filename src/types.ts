@@ -42,6 +42,10 @@ export interface ModelInfo {
 	created_at?: string; // ISO date string
 	trending_score?: number; // Week-over-week growth percentage
 	popularity_score?: number; // Combined downloads + ratings metric
+	// New fields for categorization
+	source?: 'lab' | 'community';
+	lastUpdated?: string; // ISO date string
+	verified?: boolean; // Real model flag
 }
 
 export interface FiltersState {

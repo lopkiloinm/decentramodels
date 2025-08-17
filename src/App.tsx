@@ -1,9 +1,11 @@
 import React from 'react';
 import Header from './components/Header';
-import FeaturedModels from './components/FeaturedModels';
-import TrainingHub from './components/TrainingHub';
+import QuickAccessBar from './components/QuickAccessBar';
+import ModelSections from './components/ModelSections';
+import ModelTrainers from './components/ModelTrainers';
 import Footer from './components/Footer';
 import type { FiltersState, PlatformSlug } from './types';
+import { loadModelsFromCSV } from './utils/modelLoader';
 
 const initialFilters: FiltersState = {
 	platform: 'all',
@@ -18,45 +20,65 @@ const initialFilters: FiltersState = {
 const App: React.FC = () => {
 	const [filters, setFilters] = React.useState<FiltersState>(initialFilters);
 	const [search, setSearch] = React.useState('');
-	const [currentView, setCurrentView] = React.useState<'models' | 'training'>('models');
+	const [allModels, setAllModels] = React.useState(loadModelsFromCSV.getInitialModels());
 
-	// Check URL hash on mount and hash change
+	// Load models from CSV files
 	React.useEffect(() => {
-		const checkHash = () => {
-			if (window.location.hash === '#training') {
-				setCurrentView('training');
-			} else {
-				setCurrentView('models');
+		loadModelsFromCSV.loadAll().then(models => {
+			if (models.length > 0) {
+				setAllModels(models);
 			}
-		};
-		
-		checkHash();
-		window.addEventListener('hashchange', checkHash);
-		return () => window.removeEventListener('hashchange', checkHash);
+		});
 	}, []);
-
-	function changePlatform(platform: PlatformSlug) {
-		setFilters((prev) => ({ ...prev, platform }));
-	}
 
 	function changeFilters(partial: Partial<FiltersState>) {
 		setFilters((prev) => ({ ...prev, ...partial }));
+	}
+
+	function handleQuickAction(action: string) {
+		const modelSection = document.getElementById('models');
+		
+		switch (action) {
+			case 'generate':
+			case 'trending':
+				modelSection?.scrollIntoView({ behavior: 'smooth' });
+				break;
+			case 'browse':
+				setFilters(initialFilters);
+				setSearch('');
+				modelSection?.scrollIntoView({ behavior: 'smooth' });
+				break;
+			case 'new':
+				changeFilters({ quality: 'new' });
+				modelSection?.scrollIntoView({ behavior: 'smooth' });
+				break;
+		}
 	}
 
 	return (
 		<main className="main">
 			<Header
 				platform={filters.platform}
-				onPlatformChange={changePlatform}
+				onPlatformChange={(platform: PlatformSlug) => changeFilters({ platform })}
 				onSearch={setSearch}
 				onQuickFilterChange={changeFilters}
 			/>
 			
-			{currentView === 'models' ? (
-				<FeaturedModels filters={filters} search={search} />
-			) : (
-				<TrainingHub models={[]} />
-			)}
+			<QuickAccessBar onQuickAction={handleQuickAction} />
+			
+			<ModelSections 
+				models={allModels}
+				filters={filters}
+				search={search}
+			/>
+			
+			<div className="divider-section">
+				<div className="container">
+					<hr className="section-divider" />
+				</div>
+			</div>
+			
+			<ModelTrainers search={search} />
 			
 			<Footer />
 		</main>
